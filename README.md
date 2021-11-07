@@ -34,7 +34,7 @@ Watches your earnings on EarnApp and notifies you when you earned balance or rec
    
    ![Q0VrgDlLf14kM4v59WmKFoUZq](https://user-images.githubusercontent.com/65712074/140639334-c5f7dfe1-0600-4e01-99f0-f08db0d1489c.png)
 
-   * Click where the Name equals `https://earnapp.com/dashboard/api/money?appid=earnapp_dashboard`
+   * Click where the name is `money?appid=earnapp_dashboard&version[version number]`
    * Scroll down a bit until you see `cookies`
    * Copy the AUTH after `oauth-refresh-token=`
    
