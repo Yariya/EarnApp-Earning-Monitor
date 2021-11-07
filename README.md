@@ -39,7 +39,7 @@ Watches your earnings on EarnApp and notifies you when you earned balance or rec
    * Copy the AUTH after `oauth-refresh-token=`
    
    ![bpR8BPGRpf3cqRkT004Ejywmj](https://user-images.githubusercontent.com/65712074/140639500-01b4aa40-91bf-48eb-a4af-a45a4b615d4d.png)
-4) Your done :)
+4) You're done :)
 
 ### Remember
   * This does not use an official API from earnapp so bugs may occur
