@@ -123,7 +123,7 @@ def main():
                 embed.set_thumbnail(url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
                 embed.add_embed_field(name="Earned", value=f"+{round((x.balance - history), 2)}$")
                 embed.add_embed_field(name="Multiplier", value=f"{x.multiplier}")
-                embed.add_embed_field(name="Total Earnings", value=f"{x.balance}$")
+                embed.add_embed_field(name="Total Earnings", value=f"{x.total_earnings}$")
                 embed.set_footer(text=f"Payment Method: {x.redeem_details.payment_method}",
                                  icon_url="https://img.icons8.com/nolan/64/paypal.png")
                 webhook.add_embed(embed)
