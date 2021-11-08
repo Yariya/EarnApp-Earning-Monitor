@@ -10,7 +10,7 @@ Watches your earnings on EarnApp and notifies you when you earned balance or rec
 - Install [Python3](https://www.python.org/downloads/)
 - Download this repo.
 - Unzip and put in directory
-- Install Dependencys
+- Install Dependencies
   * `pip3 install requests`
   * `pip3 install discord_webhook`
 - Open `config.py`
