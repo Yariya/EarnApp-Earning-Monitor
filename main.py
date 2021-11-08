@@ -125,7 +125,7 @@ def main():
                 embed.add_embed_field(name="Multiplier", value=f"{x.multiplier}")
                 embed.add_embed_field(name="Total Earnings", value=f"{x.total_earnings}$")
                 embed.set_footer(text=f"Payment Method: {x.redeem_details.payment_method}",
-                                 icon_url="https://img.icons8.com/nolan/64/paypal.png")
+                                 icon_url="https://img.icons8.com/color/64/000000/paypal.png")
                 webhook.add_embed(embed)
                 webhook.execute()
                 history = float(x.balance)
@@ -138,7 +138,7 @@ def main():
                 embed.add_embed_field(name="Redeemed", value=f"+{round((history - x.balance), 2)}$")
                 embed.add_embed_field(name="Email", value=f"{x.redeem_details.email}")
                 embed.set_footer(text=f"Payment Method: {x.redeem_details.payment_method}",
-                                 icon_url="https://img.icons8.com/nolan/64/paypal.png")
+                                 icon_url="https://img.icons8.com/color/64/000000/paypal.png")
                 webhook.add_embed(embed)
                 webhook.execute()
                 history = float(x.balance)
