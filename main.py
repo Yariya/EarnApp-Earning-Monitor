@@ -122,6 +122,7 @@ def main():
                                      color="03b2f8")
                 embed.set_thumbnail(url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
                 embed.add_embed_field(name="Earned", value=f"+{round((x.balance - history), 2)}$")
+                embed.add_embed_field(name="Balance", value=f"{x.balance}$")
                 embed.add_embed_field(name="Multiplier", value=f"{x.multiplier}")
                 embed.add_embed_field(name="Total Earnings", value=f"{x.total_earnings}$")
                 embed.set_footer(text=f"Payment Method: {x.redeem_details.payment_method}",
