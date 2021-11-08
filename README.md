@@ -45,7 +45,7 @@ Watches your earnings on EarnApp and notifies you when you earned balance or rec
   * This does not use an official API from earnapp so bugs may occur
 
 ## Credits
-- [Earnapp](https://earnapp.com/)
+- [EarnApp](https://earnapp.com/)
 - [LockBlock](https://github.com/LockBlock-dev/) For giving me the Idea :)
 - [ItzDatMC](https://github.com/ItzDatMC) helping Pull Requests :)
 - [Woodie-07](https://github.com/Woodie-07) helping typo :)
