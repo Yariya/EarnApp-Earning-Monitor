@@ -71,7 +71,7 @@ def main():
                     embed.add_embed_field(name="Balance", value=f"{x.balance}$")
                     embed.add_embed_field(name="Multiplier", value=f"{x.multiplier}")
                     embed.add_embed_field(name="Total Earnings", value=f"{x.total_earnings}$")
-                    embed.set_footer(text=f"You are earning with {devlen} Devices", icon_url="https://img.icons8.com/color/64/000000/paypal.png")
+                    embed.set_footer(text=f"You are earning with {devlen} devices", icon_url="https://img.icons8.com/color/64/000000/paypal.png")
                     webhook.add_embed(embed)
                     webhook.execute()
 
@@ -103,7 +103,7 @@ def main():
                     embed.add_embed_field(name="Earned", value=f"+{round((x.balance - history), 2)}$")
                     embed.add_embed_field(name="Muliplier", value=f"{x.multiplier}")
                     embed.add_embed_field(name="Total Earnings", value=f"{x.total_earnings}$")
-                    embed.set_footer(text=f"You are earning with {devlen} Devices", icon_url="https://img.icons8.com/nolan/64/paypal.png")
+                    embed.set_footer(text=f"You are earning with {devlen} devices", icon_url="https://img.icons8.com/nolan/64/paypal.png")
                     webhook.add_embed(embed)
                     webhook.execute()
                     print(f"{colors.YELLOW}[~] Balance did not Change!")
@@ -111,7 +111,7 @@ def main():
                     history = float(x.balance)
 
             except:
-                print(f"{colors.RED}[-] EarnApp is currently down /:{colors.RESET}")
+                print(f"{colors.RED}[-] EarnApp is currently down :/{colors.RESET}")
 
 
 if __name__ == '__main__':
