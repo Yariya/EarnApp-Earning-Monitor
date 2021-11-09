@@ -1,14 +1,17 @@
 # EarnApp-Earning-Monitor
 Watches your earnings on EarnApp and notifies you when you earned balance or received an payout.
 
-![zmX0s0RozyN5IjdcDMrw3sfTy](https://user-images.githubusercontent.com/65712074/140638993-09a3645e-3c4b-48b1-b139-ee2c1387c79e.png)
-![wueUME2JVYzlP4iyfXFtJiaAH](https://user-images.githubusercontent.com/65712074/140639093-7925bb31-52b7-42c1-81a5-0a3ce755438b.png)
+
+![unknown (7)](https://user-images.githubusercontent.com/65712074/140953429-4049d955-f99e-461b-b03e-94d78ce2d98d.png)
+![Ohjijq6M7nlCczQVWxH5zf7uZ](https://user-images.githubusercontent.com/65712074/140953604-72e84743-d294-40cf-b4a2-7591df34c088.png)
+
+![rpcVV21JL6H8O6MebHe3xINXo](https://user-images.githubusercontent.com/65712074/140954872-61be8ab7-6881-4142-be20-8b395aa3df46.png)
 
 
 ## Installation
 
 - Install [Python3](https://www.python.org/downloads/)
-- Download this repo.
+- Download or clone this repo.
 - Unzip and put in directory
 - Install Dependencies
   * `pip3 install requests`
@@ -16,7 +19,7 @@ Watches your earnings on EarnApp and notifies you when you earned balance or rec
 - Open `config.py`
   ```py
   AUTH = '' # Google Auth Cookie
-  Delay = 300 # Interval to check balance in seconds
+  Delay = 120 # Time to wait after server update (60-120)
   WebhookURL = '' # Discord Webhook URL
   ```
 - Run `python3 main.py`
@@ -32,7 +35,7 @@ Watches your earnings on EarnApp and notifies you when you earned balance or rec
    * Refresh Page
    * After you refreshed the Page you will see something like this
    
-   ![Q0VrgDlLf14kM4v59WmKFoUZq](https://user-images.githubusercontent.com/65712074/140639334-c5f7dfe1-0600-4e01-99f0-f08db0d1489c.png)
+   ![ZcXmT1zW3otc1Fu0QHTMOcQHO](https://user-images.githubusercontent.com/65712074/140956237-0ba63c31-94b7-4d67-a80b-dc8438fdb010.gif)
 
    * Click where the name is `money?appid=earnapp_dashboard&version[version number]`
    * Scroll down a bit until you see `cookies`
@@ -50,3 +53,6 @@ Watches your earnings on EarnApp and notifies you when you earned balance or rec
 - [ItzDatMC](https://github.com/ItzDatMC) helping Pull Requests :)
 - [Woodie-07](https://github.com/Woodie-07) helping typo :)
 - [merwie](https://github.com/merwie) helping typo :)
+
+## Version
+- 1.1
