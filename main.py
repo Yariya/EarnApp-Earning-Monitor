@@ -76,7 +76,7 @@ def main():
                 response = requests.get('https://earnapp.com/dashboard/api/money',
                                         headers={'cookie': f'auth=1; auth-method=google; oauth-refresh-token={AUTH}'},
                                         params=Headers.params)
-                x = welcome7_from_dict(json.loads(response.text))
+                x = json.loads(response.text)
                 if x.balance > history:
                     webhook = DiscordWebhook(url=WebhookURL, rate_limit_retry=True)
                     embed = DiscordEmbed(title="Balance Updated!", description="Your EarnApp Balance has been updated!", color="03b2f8")
