@@ -1,10 +1,10 @@
 # Dev: Yariya
 
 import json
+import sys
 import time
 from config import *
 from dp.colors import *
-from dp.accountjson import *
 from discord_webhook import DiscordWebhook, DiscordEmbed
 import requests
 from dp.baljson import *
@@ -18,6 +18,7 @@ class Headers:
 
 
 def main():
+    infos = ""
     now = datetime.now()
     curr = now.strftime("%H")
 
@@ -32,11 +33,18 @@ def main():
     devlen = int(round(len(x) / 8.9, 0))
     devgnu = str(devs.text).count("sdk-node") / 2
     devwin = str(devs.text).count("sdk-win") / 2
+    try:
+        infos = requests.get("https://earnapp.com/dashboard/api/user_data",
+                             headers={'cookie': f'auth=1; auth-method=google; oauth-refresh-token={AUTH}'},
+                             params=Headers.params)
+        y = json.loads(infos.text)
+    except:
+        print(f"{colors.RED}Can't parse json from api/user_data")
+        print(f"Send this to an admin{colors.RESET}")
+        print(infos.text)
+        input("")
+        sys.exit(0)
 
-    infos = requests.get("https://earnapp.com/dashboard/api/user_data",
-                         headers={'cookie': f'auth=1; auth-method=google; oauth-refresh-token={AUTH}'},
-                         params=Headers.params)
-    y = welcome8_from_dict(json.loads(infos.text))
 
     response = requests.get('https://earnapp.com/dashboard/api/money',
                             headers={'cookie': f'auth=1; auth-method=google; oauth-refresh-token={AUTH}'},
@@ -45,7 +53,7 @@ def main():
     history = x.balance
 
     print(f"{colors.GREEN}[+] Successfully loaded profile!{colors.RESET}")
-    print(f"    {colors.RED}Username: {y.name}")
+    print(f"    {colors.RED}Username: {y['name']}")
     print(f"    Multiplier: {x.multiplier}x")
     print(f"    Current Balance: {x.balance}$")
     print(f"    Lifetime Balance: {x.total_earnings}$")
@@ -71,7 +79,7 @@ def main():
                     embed.add_embed_field(name="Balance", value=f"{x.balance}$")
                     embed.add_embed_field(name="Multiplier", value=f"{x.multiplier}")
                     embed.add_embed_field(name="Total Earnings", value=f"{x.total_earnings}$")
-                    embed.set_footer(text=f"You are earning with {devlen} devices", icon_url="https://img.icons8.com/color/64/000000/paypal.png")
+                    embed.set_footer(text=f"You are earning with {devlen} Devices", icon_url="https://img.icons8.com/color/64/000000/paypal.png")
                     webhook.add_embed(embed)
                     webhook.execute()
 
@@ -103,7 +111,7 @@ def main():
                     embed.add_embed_field(name="Earned", value=f"+{round((x.balance - history), 2)}$")
                     embed.add_embed_field(name="Muliplier", value=f"{x.multiplier}")
                     embed.add_embed_field(name="Total Earnings", value=f"{x.total_earnings}$")
-                    embed.set_footer(text=f"You are earning with {devlen} devices", icon_url="https://img.icons8.com/nolan/64/paypal.png")
+                    embed.set_footer(text=f"You are earning with {devlen} Devices", icon_url="https://img.icons8.com/nolan/64/paypal.png")
                     webhook.add_embed(embed)
                     webhook.execute()
                     print(f"{colors.YELLOW}[~] Balance did not Change!")
@@ -111,7 +119,7 @@ def main():
                     history = float(x.balance)
 
             except:
-                print(f"{colors.RED}[-] EarnApp is currently down :/{colors.RESET}")
+                print(f"{colors.RED}[-] EarnApp is currently down /:{colors.RESET}")
 
 
 if __name__ == '__main__':
