@@ -104,7 +104,7 @@ def main():
                 embed = DiscordEmbed(title="New Transactions", description="New Transactions Detected!",
                                      color="02ECC71")
                 embed.set_thumbnail(url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
-                embed.add_embed_field(name="Redeemed", value=f"+{round((history - x.balance), 2)}$")
+                embed.add_embed_field(name="Redeemed", value=f"+{round((history - x['balance']), 2)}$")
                 embed.add_embed_field(name="Email", value=f"{xbackup.redeem_details.email}")
                 embed.set_footer(text=f"Payment Method: {xbackup.redeem_details.payment_method}",
                                  icon_url="https://img.icons8.com/color/64/000000/paypal.png")
