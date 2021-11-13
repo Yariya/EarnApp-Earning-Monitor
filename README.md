@@ -26,6 +26,8 @@ services:
 
 ```
 
+### Windows/Linux
+
 - Install [Python3](https://www.python.org/downloads/)
 - Download or clone this repo.
 - Unzip and put in directory
