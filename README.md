@@ -34,7 +34,7 @@ services:
 - Install Dependencies
   * `pip3 install requests`
   * `pip3 install discord_webhook`
-- Open `config.py`
+- Open `app/config.py`
   ```py
   AUTH = '' # Google Auth Cookie
   Delay = 120 # Time to wait after server update (60-120)
