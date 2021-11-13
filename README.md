@@ -26,6 +26,8 @@ services:
 
 ```
 
+### Windows/Linux
+
 - Install [Python3](https://www.python.org/downloads/)
 - Download or clone this repo.
 - Unzip and put in directory
@@ -65,10 +67,7 @@ services:
 
 ## Credits
 - [EarnApp](https://earnapp.com/)
-- [LockBlock](https://github.com/LockBlock-dev/) For giving me the Idea :)
-- [ItzDatMC](https://github.com/ItzDatMC) helping Pull Requests :)
-- [Woodie-07](https://github.com/Woodie-07) helping typo :)
-- [merwie](https://github.com/merwie) helping typo :)
+- [LockBlock](https://github.com/LockBlock-dev/) [ItzDatMC](https://github.com/ItzDatMC) [Woodie-07](https://github.com/Woodie-07) [merwie](https://github.com/merwie) 
 
 ## Version
 - 1.1
