@@ -91,4 +91,3 @@ def welcome7_from_dict(s: Any) -> Welcome7:
 
 def welcome7_to_dict(x: Welcome7) -> Any:
     return to_class(Welcome7, x)
-
