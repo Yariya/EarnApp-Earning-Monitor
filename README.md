@@ -36,9 +36,9 @@ services:
   * `pip3 install discord_webhook`
 - Open `app/config.py`
   ```py
-  AUTH = '' # Google Auth Cookie
-  Delay = 120 # Time to wait after server update (60-120)
-  WebhookURL = '' # Discord Webhook URL
+  auth = '' # Google Auth Cookie
+  delay = 120 # Time to wait after server update (60-120)
+  webhook_url = '' # Discord Webhook URL
   ```
 - Run `python3 main.py`
 
