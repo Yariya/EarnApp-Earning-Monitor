@@ -50,10 +50,8 @@ Watches your earnings on EarnApp and notifies you when you earned balance or rec
 
 ## Credits
 - [EarnApp](https://earnapp.com/)
-- [LockBlock](https://github.com/LockBlock-dev/) For giving me the Idea :)
-- [ItzDatMC](https://github.com/ItzDatMC) helping Pull Requests :)
-- [Woodie-07](https://github.com/Woodie-07) helping typo :)
-- [merwie](https://github.com/merwie) helping typo :)
+- [Creator](https://github.com/Yariya)
+- [LockBlock](https://github.com/LockBlock-dev/) [Woodie-07](https://github.com/Woodie-07) [ItzDatMC](https://github.com/ItzDatMC) [merwie](https://github.com/merwie)
 
 ## Version
 - 1.1
