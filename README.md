@@ -1,6 +1,7 @@
 # EarnApp-Earning-Monitor
 Watches your earnings on EarnApp and notifies you when you earned balance or received an payout.
 
+Containerised by [https://github.com/fazalfarhan01](https://github.com/fazalfarhan01)
 
 ![unknown (7)](https://user-images.githubusercontent.com/65712074/140953429-4049d955-f99e-461b-b03e-94d78ce2d98d.png)
 ![Ohjijq6M7nlCczQVWxH5zf7uZ](https://user-images.githubusercontent.com/65712074/140953604-72e84743-d294-40cf-b4a2-7591df34c088.png)
@@ -9,7 +10,21 @@ Watches your earnings on EarnApp and notifies you when you earned balance or rec
 ![I3BX998HBWdqAuMa81oJhhlWe](https://user-images.githubusercontent.com/65712074/140958375-282ef443-ab8d-4304-86ed-b334e68377ce.png)
 
 
-## Installation
+# Installation
+
+## Docker-Compose
+```BASH
+version: "3.3"
+services:
+  app:
+    image: fazalfarhan01/earnapp-earning-monitor
+    restart: always
+    environment:
+      AUTH: YOUR_AUTH_COOKIE_HERE
+      DELAY: 60
+      WEBHOOK_URL: YOUR_WEBHOOK_URL_HERE
+
+```
 
 - Install [Python3](https://www.python.org/downloads/)
 - Download or clone this repo.
@@ -50,8 +65,10 @@ Watches your earnings on EarnApp and notifies you when you earned balance or rec
 
 ## Credits
 - [EarnApp](https://earnapp.com/)
-- [Creator](https://github.com/Yariya)
-- [LockBlock](https://github.com/LockBlock-dev/) [Woodie-07](https://github.com/Woodie-07) [ItzDatMC](https://github.com/ItzDatMC) [merwie](https://github.com/merwie)
+- [LockBlock](https://github.com/LockBlock-dev/) For giving me the Idea :)
+- [ItzDatMC](https://github.com/ItzDatMC) helping Pull Requests :)
+- [Woodie-07](https://github.com/Woodie-07) helping typo :)
+- [merwie](https://github.com/merwie) helping typo :)
 
 ## Version
 - 1.1
