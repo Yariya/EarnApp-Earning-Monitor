@@ -20,7 +20,7 @@ def main():
     now = datetime.now()
     curr = now.strftime("%H")
 
-    print(f"{colors.GREEN}[+] EarnApp Earnings Watcher started!{colors.RESET}")
+    print(f"{colorama.Fore.GREEN}[+] EarnApp Earnings Watcher started!{colorama.Fore.RESET}")
 
     devs = requests.get('https://earnapp.com/dashboard/api/devices',
                         headers={'cookie': f'auth=1; auth-method=google; oauth-refresh-token={AUTH}'},
@@ -47,8 +47,8 @@ def main():
                              params=Headers.params)
         y = json.loads(infos.text)
     except:
-        print(f"{colors.RED}Can't parse json from api/user_data")
-        print(f"Send this to an admin{colors.RESET}")
+        print(f"{colorama.Fore.RED}Can't parse json from api/user_data")
+        print(f"Send this to an admin{colorama.Fore.RESET}")
         print(infos.text)
         input("")
         sys.exit(0)
