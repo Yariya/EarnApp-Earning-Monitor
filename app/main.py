@@ -2,7 +2,6 @@ import json
 import sys
 import time
 from config import *
-from dp.colors import *
 from discord_webhook import DiscordWebhook, DiscordEmbed
 import requests
 from dp.baljson import *
