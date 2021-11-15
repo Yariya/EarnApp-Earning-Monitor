@@ -34,6 +34,7 @@ services:
 - Install Dependencies
   * `pip3 install requests`
   * `pip3 install discord_webhook`
+  * `pip3 install colorama`
 - Open `app/config.py`
   ```py
   auth = '' # Google Auth Cookie
