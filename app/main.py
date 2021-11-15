@@ -63,7 +63,7 @@ def main():
     print(f"    {colors.RED}Username: {y['name']}")
     print(f"    Multiplier: {x['multiplier']}x")
     print(f"    Current Balance: {x['balance']}$")
-    print(f"    Lifetime Balance: {x['total_earnings']}$")
+    print(f"    Lifetime Balance: {x['earnings_total']}$")
     print(f"    Devices: {devlen} (Windows: {int(devwin)} Linux: {int(devgnu)})\n{colors.RESET}")
 
     while 1:
@@ -86,7 +86,7 @@ def main():
                 embed.add_embed_field(name="Earned", value=f"+{round((x['balance'] - history), 2)}$")
                 embed.add_embed_field(name="Balance", value=f"{x['balance']}$")
                 embed.add_embed_field(name="Multiplier", value=f"{x['multiplier']}")
-                embed.add_embed_field(name="Total Earnings", value=f"{x['total_earnings']}$")
+                embed.add_embed_field(name="Total Earnings", value=f"{x['earnings_total']}$")
                 embed.set_footer(text=f"You are earning with {devlen} Devices",
                                  icon_url="https://img.icons8.com/color/64/000000/paypal.png")
                 webhook.add_embed(embed)
@@ -122,7 +122,7 @@ def main():
                 embed.set_thumbnail(url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
                 embed.add_embed_field(name="Earned", value=f"+{round((x['balance'] - history), 2)}$")
                 embed.add_embed_field(name="Multiplier", value=f"{x['multiplier']}")
-                embed.add_embed_field(name="Total Earnings", value=f"{x['total_earnings']}$")
+                embed.add_embed_field(name="Total Earnings", value=f"{x['earnings_total']}$")
                 embed.set_footer(text=f"You are earning with {devlen} Devices",
                                  icon_url="https://img.icons8.com/nolan/64/paypal.png")
                 webhook.add_embed(embed)
