@@ -4,10 +4,10 @@ Watches your earnings on EarnApp and notifies you when you earned balance or rec
 Containerised by [https://github.com/fazalfarhan01](https://github.com/fazalfarhan01)
 
 ![unknown (7)](https://user-images.githubusercontent.com/65712074/140953429-4049d955-f99e-461b-b03e-94d78ce2d98d.png)
-![Ohjijq6M7nlCczQVWxH5zf7uZ](https://user-images.githubusercontent.com/65712074/140953604-72e84743-d294-40cf-b4a2-7591df34c088.png)
 
 
-![I3BX998HBWdqAuMa81oJhhlWe](https://user-images.githubusercontent.com/65712074/140958375-282ef443-ab8d-4304-86ed-b334e68377ce.png)
+![TtB7FfrHSF1O7AxwnRUin9OHe](https://user-images.githubusercontent.com/65712074/142068590-cd6de535-0410-4451-af13-357543c35ace.png)
+
 
 
 # Installation
