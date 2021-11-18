@@ -36,6 +36,9 @@ docker run -d --restart always --name earnapp-monitor
 -e AUTH=1%2%adfbg-afvbfab-asfdbadbf -e WEBHOOK_URL=https://discord.com/api/webhooks/akjsdvasdvjafvb fazalfarhan01/earnapp-earning-monitor:python-latest
 ```
 
+## Windows
+- Download the executable file from [releases](https://github.com/Yariya/EarnApp-Earning-Monitor/releases)
+- Double click and run. (`Windows Defender might detect it as a trojan. Nothing to worry, it's a false positive. You will have to allow it from windows defender's protection history.`)
 
 ## Windows/Linux
 
