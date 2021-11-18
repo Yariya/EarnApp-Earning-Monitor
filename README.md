@@ -51,20 +51,17 @@ docker run -d --restart always --name earnapp-monitor
 1) Go to the EarnApp [Dashboard](https://earnapp.com/dashboard/)
 2) Login with Google
 3) Open Developer tools with `CTR+SHIFT+I`
-   * Goto Network TAB
+   * Goto **Application** TAB
    
-   ![qATMniDchDUWiR9Y1LQGimLOQ](https://user-images.githubusercontent.com/65712074/140639251-a6be881d-b394-4fc3-a7e5-2543e80320bb.png)
-   
-   * Refresh Page
-   * After you refreshed the Page you will see something like this
-   
-   ![ZcXmT1zW3otc1Fu0QHTMOcQHO](https://user-images.githubusercontent.com/65712074/140956237-0ba63c31-94b7-4d67-a80b-dc8438fdb010.gif)
+   ![image](https://user-images.githubusercontent.com/45929854/142379296-dc321d08-7f1b-4eb5-bc3d-cf2fde9c0e01.png)
 
-   * Click where the name is `money?appid=earnapp_dashboard&version[version number]`
-   * Scroll down a bit until you see `cookies`
-   * Copy the AUTH after `oauth-refresh-token=`
+   * Click on `oauth-refresh-token`
    
-   ![bpR8BPGRpf3cqRkT004Ejywmj](https://user-images.githubusercontent.com/65712074/140639500-01b4aa40-91bf-48eb-a4af-a45a4b615d4d.png)
+   ![image](https://user-images.githubusercontent.com/45929854/142379619-4f9c15a3-8710-4e11-bded-18ea1e4898d8.png)
+
+   * Copy the entire thing as is.
+   
+   ![image](https://user-images.githubusercontent.com/45929854/142380234-5cb16cc8-4bce-49c0-8e82-706c9c156496.png)
 4) You're done :)
 
 ### Remember
@@ -75,4 +72,4 @@ docker run -d --restart always --name earnapp-monitor
 - [LockBlock](https://github.com/LockBlock-dev/) [ItzDatMC](https://github.com/ItzDatMC) [Woodie-07](https://github.com/Woodie-07) [merwie](https://github.com/merwie) 
 
 ## Version
-- 1.1
+- 2.1
