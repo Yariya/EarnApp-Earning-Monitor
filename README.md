@@ -69,7 +69,6 @@ docker run -d --restart always --name earnapp-monitor
 
 ## Credits
 - [EarnApp](https://earnapp.com/)
-- [LockBlock](https://github.com/LockBlock-dev/) [ItzDatMC](https://github.com/ItzDatMC) [Woodie-07](https://github.com/Woodie-07) [merwie](https://github.com/merwie) 
-
+- Thanks to [fazalfarhan01](https://github.com/fazalfarhan01) for completely reworking this project :)
 ## Version
 - 2.1
