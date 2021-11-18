@@ -11,19 +11,22 @@ from datetime import datetime, timezone
 # initiallise colorama
 init(autoreset=True)
 
-# Initiallise graphics
-graphics = Graphics()
-graphics.print_app_title()
+try:
+    # Initiallise graphics
+    graphics = Graphics()
+    graphics.print_app_title()
 
-# get configurations
-config = Configuration()
-graphics.success("Configurations Loaded.")
+    # get configurations
+    config = Configuration()
+    graphics.success("Configurations Loaded.")
 
-# initiallise earnapp
-api = EarnApp(config.AUTH)
-graphics.success("Earnapp Earning Monitor Started.")
+    # initiallise earnapp
+    api = EarnApp(config.AUTH)
+    graphics.success("Earnapp Earning Monitor Started.")
 
-webhook_templates = WebhookTemplate()
+    webhook_templates = WebhookTemplate()
+except (KeyboardInterrupt, SystemExit):
+    graphics.warn("Received exit signal!")
 
 
 def test_discord_webhook():
