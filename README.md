@@ -64,7 +64,7 @@ services:
 4) You're done :)
 
 ### Remember
-  * This does not use an official API from earnapp so bugs may occur
+  * This does not use an official API from EarnApp so bugs may occur.
 
 ## Credits
 - [EarnApp](https://earnapp.com/)
