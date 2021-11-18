@@ -22,7 +22,6 @@ services:
     restart: always
     environment:
       AUTH: YOUR_AUTH_COOKIE_HERE
-      DELAY: 60
       WEBHOOK_URL: YOUR_WEBHOOK_URL_HERE
 ```
 ### Non Compose
