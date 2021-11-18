@@ -1,3 +1,3 @@
-cd app
-python main.py
+@echo off
+python app/main.py
 pause
