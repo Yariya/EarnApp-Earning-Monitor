@@ -51,9 +51,13 @@ docker run -d --restart always --name earnapp-monitor
 1) Go to the EarnApp [Dashboard](https://earnapp.com/dashboard/)
 2) Login with Google
 3) Open Developer tools with `CTR+SHIFT+I`
-   * Goto **Application** TAB
+   * Go to **Application** TAB
    
    ![image](https://user-images.githubusercontent.com/45929854/142379296-dc321d08-7f1b-4eb5-bc3d-cf2fde9c0e01.png)
+
+   * Go to `Storage` > `Cookies` > `https://earnapp.com`
+
+   ![image](https://user-images.githubusercontent.com/33323458/142406885-451e0d2e-5c33-42a0-a1b1-967ea63ec511.png)
 
    * Click on `oauth-refresh-token`
    
