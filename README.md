@@ -57,7 +57,7 @@ docker run -d --restart always --name earnapp-monitor
 
    * Go to `Storage` > `Cookies` > `https://earnapp.com`
 
-  ![image](https://user-images.githubusercontent.com/33323458/142406676-410e8e4c-6030-4c0a-95f8-7f5ac6bb3191.png)
+   ![image](https://user-images.githubusercontent.com/33323458/142406885-451e0d2e-5c33-42a0-a1b1-967ea63ec511.png)
 
    * Click on `oauth-refresh-token`
    
