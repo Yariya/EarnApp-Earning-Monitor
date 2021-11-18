@@ -33,8 +33,10 @@ docker run -d --restart always --name earnapp-monitor \
 fazalfarhan01/earnapp-earning-monitor:python-latest
 ```
   - Example
-  `docker run -d --restart always --name earnapp-monitor 
--e AUTH=1%2%adfbg-afvbfab-asfdbadbf -e WEBHOOK_URL=https://discord.com/api/webhooks/akjsdvasdvjafvb fazalfarhan01/earnapp-earning-monitor:python-latest`
+  ```BASH
+docker run -d --restart always --name earnapp-monitor 
+-e AUTH=1%2%adfbg-afvbfab-asfdbadbf -e WEBHOOK_URL=https://discord.com/api/webhooks/akjsdvasdvjafvb fazalfarhan01/earnapp-earning-monitor:python-latest
+```
 
 
 ## Windows/Linux
@@ -44,6 +46,7 @@ fazalfarhan01/earnapp-earning-monitor:python-latest
 - Unzip and put in directory
 - Install Dependencies
   * `pip3 install discord_webhook pyEarnapp colorama`
+  - On Windows, run `install.bat`
 - Run `start.bat`
 
 ### How to get Google Auth
