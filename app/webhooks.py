@@ -61,8 +61,7 @@ class WebhookTemplate:
     def balance_unchanged(self, webhook_url, user_info, earnings_info, devices_info, previous_balance):
         webhook = DiscordWebhook(url=webhook_url, rate_limit_retry=True)
         embed = DiscordEmbed(
-            title="Balance Updated!",
-            description="Your EarnApp Balance has not changed!",
+            title="Balance has not updated!",
             color="E67E22"
         )
         embed.set_thumbnail(url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
