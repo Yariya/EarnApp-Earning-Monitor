@@ -1,136 +1,140 @@
-# Dev: Yariya
+from pyEarnapp import EarnApp
+from pyEarnapp.errors import *
+from config import Configuration
+from colorama import init
+from graphics import Graphics
+from discord_webhook import DiscordWebhook
+from webhooks import WebhookTemplate
+from time import sleep
+from datetime import datetime, timezone
 
-import json
-import sys
-import time
-from config import *
-from dp.colors import *
-from discord_webhook import DiscordWebhook, DiscordEmbed
-import requests
-from dp.baljson import *
-from datetime import datetime
+# initiallise colorama
+init(autoreset=True)
+
+# Initiallise graphics
+graphics = Graphics()
+graphics.print_app_title()
+
+# get configurations
+config = Configuration()
+graphics.success("Configurations Loaded.")
+
+# initiallise earnapp
+api = EarnApp(config.AUTH)
+graphics.success("Earnapp Earning Monitor Started.")
+
+webhook_templates = WebhookTemplate()
 
 
-class Headers:
-    params = (
-        ('appid', 'earnapp_dashboard'),
-    )
+def test_discord_webhook():
+    graphics.info("Testing Discord Webhook.")
+    webhook = DiscordWebhook(url=config.WEBHOOK_URL,
+                             content='Testing Discord Webhook.')
+    response = webhook.execute()
+    if response.status_code == 401:
+        graphics.error("Looks like a wrong webhook URL.")
+        exit()
+    elif response.status_code == 200:
+        graphics.success("Webhook test successful.")
+    webhook.delete(response)
 
 
 def main():
-    infos = ""
-    now = datetime.now()
-    curr = now.strftime("%H")
-
-    print(f"{colors.GREEN}[+] EarnApp Earnings Watcher started!{colors.RESET}")
-
-    devs = requests.get('https://earnapp.com/dashboard/api/devices',
-                        headers={'cookie': f'auth=1; auth-method=google; oauth-refresh-token={AUTH}'},
-                        params=Headers.params)
-
-    # Lazy... Will update next update :)
-    x = str(devs.text).split(",")
-    devlen = int(round(len(x) / 8.9, 0))
-    devgnu = str(devs.text).count("sdk-node") / 2
-    devwin = str(devs.text).count("sdk-win") / 2
     try:
-        infos = requests.get("https://earnapp.com/dashboard/api/user_data",
-                             headers={'cookie': f'auth=1; auth-method=google; oauth-refresh-token={AUTH}'},
-                             params=Headers.params)
-        y = json.loads(infos.text)
-    except:
-        print(f"{colors.RED}Can't parse json from api/user_data")
-        print(f"Send this to an admin{colors.RESET}")
-        print(infos.text)
-        input("")
-        sys.exit(0)
+        # Earnapp
+        user_info = api.get_user_data()
+        earnings_info = api.get_earning_info()
+        devices_info = api.get_devices_info()
+        transaction_info = api.get_transaction_info()
 
-    response = requests.get('https://earnapp.com/dashboard/api/money',
-                            headers={'cookie': f'auth=1; auth-method=google; oauth-refresh-token={AUTH}'},
-                            params=Headers.params)
+        # Discord Webhook
+        test_discord_webhook()
 
-    # Short fix of payment needed problem
-    xbackup = []
-    try:
-        xbackup = welcome7_from_dict(json.loads(response.text))
-    except:
-        print("No Payment details.")
-        xbackup = "nil"
-    x = json.loads(response.text)
-    history = x["balance"]
+    except AuthenticationError:
+        graphics.error("Looks like a wrong oauth-refresh-token.")
+        exit()
 
-    print(f"{colors.GREEN}[+] Successfully loaded profile!{colors.RESET}")
-    print(f"    {colors.RED}Username: {y['name']}")
-    print(f"    Multiplier: {x['multiplier']}x")
-    print(f"    Current Balance: {x['balance']}$")
-    print(f"    Lifetime Balance: {x['earnings_total']}$")
-    print(f"    Devices: {devlen} (Windows: {int(devwin)} Linux: {int(devgnu)})\n{colors.RESET}")
+    graphics.info(f"Username: {user_info.name}")
+    graphics.info(f"Multiplier: {earnings_info.multiplier}")
+    graphics.info(f"Balance: {earnings_info.balance}")
+    graphics.info(f"Lifetime Balance: {earnings_info.earnings_total}")
+    graphics.info(f"Referral Balance: {earnings_info.bonuses}")
+    graphics.info(f"Lifetime Referral Balance: {earnings_info.bonuses_total}")
+    graphics.info(f"Total Devices: {devices_info.total_devices}")
+    graphics.info(f"\tWindows: {devices_info.windows_devices}")
+    graphics.info(f"\tLinux: {devices_info.linux_devices}")
+    graphics.info(f"\tOther: {devices_info.other_devices}")
+    webhook_templates.send_first_message(
+        config.WEBHOOK_URL, user_info, earnings_info, devices_info)
 
-    while 1:
-        n = datetime.now().strftime("%H")
-        if curr == n:
-            time.sleep(1)
-        else:
-            curr = n
-            time.sleep(DELAY)
+    previous_balance = earnings_info.balance
+    previous_number_of_transactions = transaction_info.total_transactions
 
-            response = requests.get('https://earnapp.com/dashboard/api/money',
-                                    headers={'cookie': f'auth=1; auth-method=google; oauth-refresh-token={AUTH}'},
-                                    params=Headers.params)
-            x = json.loads(response.text)
-            if x['balance'] > history:
-                webhook = DiscordWebhook(url=WEBHOOK_URL, rate_limit_retry=True)
-                embed = DiscordEmbed(title="Balance Updated!", description="Your EarnApp Balance has been updated!",
-                                     color="03b2f8")
-                embed.set_thumbnail(url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
-                embed.add_embed_field(name="Earned", value=f"+{round((x['balance'] - history), 2)}$")
-                embed.add_embed_field(name="Balance", value=f"{x['balance']}$")
-                embed.add_embed_field(name="Multiplier", value=f"{x['multiplier']}")
-                embed.add_embed_field(name="Total Earnings", value=f"{x['earnings_total']}$")
-                embed.set_footer(text=f"You are earning with {devlen} Devices",
-                                 icon_url="https://img.icons8.com/color/64/000000/paypal.png")
-                webhook.add_embed(embed)
-                webhook.execute()
+    while(True):
+        # run every hour at *:02 UTC
+        if datetime.now(timezone.utc).strftime("%M") == "02":
+            user_info = api.get_user_data()
+            earnings_info = api.get_earning_info()
+            devices_info = api.get_devices_info()
 
-                print(f"{colors.GREEN}[+] Balance Updated!")
-                print(f"    +{round((x['balance'] - history), 2)}${colors.RESET}\n")
-
-                history = float(x['balance'])
-
-
-
-            elif x['balance'] < history:
-                webhook = DiscordWebhook(url=WEBHOOK_URL, rate_limit_retry=True)
-                embed = DiscordEmbed(title="New Transactions", description="New Transactions Detected!",
-                                     color="02ECC71")
-                embed.set_thumbnail(url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
-                embed.add_embed_field(name="Redeemed", value=f"+{round((history - x['balance']), 2)}$")
-                embed.add_embed_field(name="Email", value=f"{xbackup.redeem_details.email}")
-                embed.set_footer(text=f"Payment Method: {xbackup.redeem_details.payment_method}",
-                                 icon_url="https://img.icons8.com/color/64/000000/paypal.png")
-                webhook.add_embed(embed)
-                webhook.execute()
-                print(f"{colors.MAGENTA}[+] New payout detected!")
-                print(f"    Payout: {round((history - x['balance']), 2)}")
-                print(f"    Payment method: {xbackup.redeem_details.payment_method}{colors.RESET}\n")
-                history = float(x['balance'])
-
+            # Balance increased
+            if round(earnings_info.balance - previous_balance, 2) != 0:
+                # After a redeem request, the initial balance is assumed to be 0.
+                if earnings_info.balance < previous_balance:
+                    previous_balance = 0
+                
+                graphics.balance_increased("Balance Updated.")
+                graphics.balance_increased(
+                    f"+{round((earnings_info.balance - previous_balance),2)}$"
+                )
+                webhook_templates.balance_increased(
+                    config.WEBHOOK_URL,
+                    user_info,
+                    earnings_info,
+                    devices_info,
+                    previous_balance
+                )
             else:
-                webhook = DiscordWebhook(url=WEBHOOK_URL, rate_limit_retry=True)
-                embed = DiscordEmbed(title="Balance Status!", description="Your EarnApp balance has not changed!",
-                                     color="E67E22")
-                embed.set_thumbnail(url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
-                embed.add_embed_field(name="Earned", value=f"+{round((x['balance'] - history), 2)}$")
-                embed.add_embed_field(name="Multiplier", value=f"{x['multiplier']}")
-                embed.add_embed_field(name="Total Earnings", value=f"{x['earnings_total']}$")
-                embed.set_footer(text=f"You are earning with {devlen} Devices",
-                                 icon_url="https://img.icons8.com/nolan/64/paypal.png")
-                webhook.add_embed(embed)
-                webhook.execute()
-                print(f"{colors.YELLOW}[~] Balance did not Change!")
-                print(f"    +{round((x['balance'] - history), 2)}${colors.RESET}\n")
-                history = float(x['balance'])
+                graphics.balance_unchanged("Balance not changed.")
+                graphics.balance_unchanged(
+                    f"Your balance has not changed. Current balance: {earnings_info.balance}"
+                )
+                webhook_templates.balance_unchanged(
+                    config.WEBHOOK_URL,
+                    user_info,
+                    earnings_info,
+                    devices_info,
+                    previous_balance
+                )
+
+            # new redeem request
+            graphics.info(
+                f"Number of transactions: {transaction_info.total_transactions}")
+            if transaction_info.total_transactions == previous_number_of_transactions:
+                graphics.info("No new transactions found.")
+            elif transaction_info.total_transactions > previous_number_of_transactions:
+                graphics.new_transaction("New redeem request detected.")
+                graphics.new_transaction(
+                    f"Redeemed {transaction_info[0].amount}$ via {transaction_info[0].payment_method}"
+                )
+                webhook_templates.new_transaction(
+                    config.WEBHOOK_URL,
+                    user_info,
+                    earnings_info,
+                    devices_info,
+                    transaction_info
+                )
+
+            # update historical data
+            previous_balance = earnings_info.balance
+            previous_number_of_transactions = transaction_info.total_transactions
+
+            # wait for the minute to end
+            sleep(120)
+
+        # Delay to check if it's time to ping earnapp
+        sleep(10)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

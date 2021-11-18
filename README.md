@@ -12,8 +12,9 @@ Containerised by [https://github.com/fazalfarhan01](https://github.com/fazalfarh
 
 # Installation
 
-## Docker-Compose
-```BASH
+## Docker
+### Compose
+```YML
 version: "3.3"
 services:
   app:
@@ -23,24 +24,27 @@ services:
       AUTH: YOUR_AUTH_COOKIE_HERE
       DELAY: 60
       WEBHOOK_URL: YOUR_WEBHOOK_URL_HERE
-
 ```
+### Non Compose
+```BASH
+docker run -d --restart always --name earnapp-monitor \
+-e AUTH=YOUR_AUTH_COOKIE_HERE \
+-e WEBHOOK_URL=YOUR_WEBHOOK_URL_HERE \
+fazalfarhan01/earnapp-earning-monitor:python-latest
+```
+  - Example
+  `docker run -d --restart always --name earnapp-monitor 
+-e AUTH=1%2%adfbg-afvbfab-asfdbadbf -e WEBHOOK_URL=https://discord.com/api/webhooks/akjsdvasdvjafvb fazalfarhan01/earnapp-earning-monitor:python-latest`
 
-### Windows/Linux
+
+## Windows/Linux
 
 - Install [Python3](https://www.python.org/downloads/)
 - Download or clone this repo.
 - Unzip and put in directory
 - Install Dependencies
-  * `pip3 install requests`
-  * `pip3 install discord_webhook`
-- Open `app/config.py`
-  ```py
-  auth = '' # Google Auth Cookie
-  delay = 120 # Time to wait after server update (60-120)
-  webhook_url = '' # Discord Webhook URL
-  ```
-- Run `python3 main.py`
+  * `pip3 install discord_webhook pyEarnapp colorama`
+- Run `start.bat`
 
 ### How to get Google Auth
 1) Go to the EarnApp [Dashboard](https://earnapp.com/dashboard/)

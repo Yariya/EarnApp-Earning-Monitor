@@ -1,3 +1,2 @@
-cd app
-python main.py
+python app/main.py
 pause
