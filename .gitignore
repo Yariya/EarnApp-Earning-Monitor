@@ -1,1 +1,7 @@
 *__pycache__*
+docker-compose.yml
+*.pyc
+build
+dist
+env
+/*.spec
