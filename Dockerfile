@@ -2,5 +2,5 @@ FROM python:alpine
 ENV PYTHONUNBUFFERED=1
 COPY app /app
 WORKDIR /app
-RUN pip install requests discord_webhook
+RUN pip install pyEarnapp discord_webhook colorama
 CMD [ "python","./main.py" ]
