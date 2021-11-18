@@ -2,8 +2,7 @@
 Watches your earnings on EarnApp and notifies you when you earned balance or received an payout.
 
 Containerised by [https://github.com/fazalfarhan01](https://github.com/fazalfarhan01)
-
-![unknown (7)](https://user-images.githubusercontent.com/65712074/140953429-4049d955-f99e-461b-b03e-94d78ce2d98d.png)
+![Screenshot 2021-11-18 110427](https://user-images.githubusercontent.com/45929854/142373141-5f1dd484-4124-4bf3-a2b9-d731833725f1.png)
 
 
 ![TtB7FfrHSF1O7AxwnRUin9OHe](https://user-images.githubusercontent.com/65712074/142068590-cd6de535-0410-4451-af13-357543c35ace.png)
