@@ -4,7 +4,6 @@ from pyEarnapp.errors import *
 from config import Configuration
 from colorama import init
 from graphics import Graphics
-from discord_webhook import DiscordWebhook
 from webhooks import WebhookTemplate
 from time import sleep
 from datetime import datetime, timezone
@@ -31,6 +30,7 @@ except (KeyboardInterrupt, SystemExit):
     graphics.warn("Received exit signal!")
     exit()
 
+
 def main():
     global info
     try:
@@ -47,6 +47,7 @@ def main():
 
     info.previous_balance = info.earnings_info.balance
     info.previous_number_of_transactions = info.transaction_info.total_transactions
+    info.previous_bandwidth_usage = info.devices_info.total_bandwidth_usage
 
     while(True):
         # run every hour at *:02 UTC
@@ -62,18 +63,24 @@ def main():
                 graphics.balance_increased(
                     f"+{round((info.earnings_info.balance - info.previous_balance),2)}$"
                 )
+                graphics.balance_increased(
+                    f"Traffic +{info.devices_info.total_bandwidth_usage-info.previous_bandwidth_usage}MB")
             else:
-                graphics.balance_unchanged("Balance not changed.")
                 graphics.balance_unchanged(
                     f"Your balance has not changed. Current balance: {info.earnings_info.balance}"
                 )
+                traffic_change = round(
+                    (info.devices_info.total_bandwidth_usage - \
+                        info.previous_bandwidth_usage)/(1024*1024), 2)
+                graphics.balance_unchanged(
+                    f"Traffic +{traffic_change}MB")
             webhook_templates.balance_update(info)
 
             # new redeem request
-            graphics.info(f"Number of transactions: {info.transaction_info.total_transactions}")
+            graphics.info(
+                f"Number of transactions: {info.transaction_info.total_transactions}")
             if check_redeem_requests(graphics, info, webhook_templates):
                 webhook_templates.new_transaction(info)
-
 
             # update historical data
             info.previous_balance = info.earnings_info.balance

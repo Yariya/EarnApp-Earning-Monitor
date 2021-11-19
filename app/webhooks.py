@@ -37,7 +37,9 @@ class WebhookTemplate:
         else:
             description = "Your EarnApp Balance has not changed."
             color = "E67E22"
-        
+        traffic_change = round(
+                    (info.devices_info.total_bandwidth_usage - \
+                        info.previous_bandwidth_usage)/(1024*1024), 2)
         embed = DiscordEmbed(
             title="Balance Updated!",
             description=description,
@@ -45,6 +47,7 @@ class WebhookTemplate:
         )
         embed.set_thumbnail(url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
         embed.add_embed_field(name="Earned", value=f"+{change}$")
+        embed.add_embed_field(name="Traffic", value=f"+{traffic_change} MB")
         embed.add_embed_field(name="Balance", value=f"{info.earnings_info.balance}$")
         embed.add_embed_field(name="Total Earnings", value=f"{info.earnings_info.earnings_total}$")
         embed.add_embed_field(name="Referral Balance", value=f"{info.earnings_info.bonuses}$")

@@ -7,6 +7,7 @@ class AllInformation:
         self.webhook_url = webhook_url
         self.previous_balance = 0
         self.previous_number_of_transactions = 0
+        self.previous_bandwidth_usage = 0
         self.get_info()
 
     def get_info(self):
