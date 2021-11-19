@@ -8,18 +8,38 @@ class Configuration:
         self.check_for_existing_config()
         # if config doesn't exist
         if self.config_file_exists:
-            self.load_config()
+            self.__want_to_reset_config()
+            if self.__reuse_config == True:
+                self.load_config()
+            else:
+                self.ask_config()
         else:
-            self.AUTH = (input("Enter the oauth-refresh-token from EarnApp dashboard\n\t: ")
+            self.ask_config()
+            
+    def ask_config(self):
+        self.AUTH = (input("Enter the oauth-refresh-token from EarnApp dashboard\n\t: ")
                          if os.environ.get("AUTH") is None else os.environ.get("AUTH"))
 
-            # time to wait in seconds after the UTC time at which EarnApp Updates
-            self.DELAY = (60 if os.environ.get("DELAY")
-                          is None else int(os.environ.get("DELAY")))
+        # time to wait in seconds after the UTC time at which EarnApp Updates
+        self.DELAY = (60 if os.environ.get("DELAY")
+                        is None else int(os.environ.get("DELAY")))
 
-            self.WEBHOOK_URL = (input("Enter the Discord WebHook URL\n\t: ") if os.environ.get(
-                "WEBHOOK_URL") is None else os.environ.get("WEBHOOK_URL"))
-            self.create_config()
+        self.WEBHOOK_URL = (input("Enter the Discord WebHook URL\n\t: ") if os.environ.get(
+            "WEBHOOK_URL") is None else os.environ.get("WEBHOOK_URL"))
+        self.create_config()
+
+    def __want_to_reset_config(self):
+        got_response = False
+        while(not got_response):
+            response = input("Want to use existing configuration? (yes/no): ")
+            if response.lower() == "yes":
+                got_response = True
+                self.__reuse_config = True
+            elif response.lower() == "no":
+                got_response = True
+                self.__reuse_config = False
+            else:
+                print("Didn't quiet understand, try again!")
 
 
     def check_for_existing_config(self):
