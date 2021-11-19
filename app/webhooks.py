@@ -12,7 +12,7 @@ class WebhookTemplate:
         embed = DiscordEmbed(
             title="Bot Started 🤖",
             description="Earnapp Earning Monitor has been started.",
-            color="03b2f8")
+            color="FFFFFF")
 
         embed.set_thumbnail(url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
         embed.add_embed_field(name="Username", value=f"{user_info.name}")
@@ -30,7 +30,7 @@ class WebhookTemplate:
         change = round(earnings_info.balance - previous_balance, 2)
         if change > 0:
             description = "Your EarnApp Balance has been updated!"
-            color = "03B2F8"
+            color = "03F8C4"
         else:
             description = "Your EarnApp Balance has not changed."
             color = "E67E22"
@@ -56,7 +56,7 @@ class WebhookTemplate:
         embed = DiscordEmbed(
             title="New Redeem Request",
             description="New redeem request has been submitted",
-            color="02ECC71"
+            color="07FF70"
         )
         embed.set_thumbnail(url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
         embed.add_embed_field(name="Amount", value=f"+{transaction_info[0].amount}$")
