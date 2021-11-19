@@ -55,7 +55,7 @@ docker run -d --restart always --name earnapp-monitor
  - Download or clone this repo.
  - Unzip and put in directory
  - Install Dependencies
-   # `pip3 install discord_webhook pyEarnapp colorama`
+   - `pip3 install discord_webhook pyEarnapp colorama`
    - On Linux, run `install.sh`
  - Run `start.sh`
 
