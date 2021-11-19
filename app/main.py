@@ -79,6 +79,7 @@ def main():
             user_info = api.get_user_data()
             earnings_info = api.get_earning_info()
             devices_info = api.get_devices_info()
+            transaction_info = api.get_transaction_info()
 
             # Balance increased
             if round(earnings_info.balance - previous_balance, 2) != 0:
@@ -90,7 +91,7 @@ def main():
                 graphics.balance_increased(
                     f"+{round((earnings_info.balance - previous_balance),2)}$"
                 )
-                webhook_templates.balance_increased(
+                webhook_templates.balance_changed(
                     config.WEBHOOK_URL,
                     user_info,
                     earnings_info,
@@ -102,7 +103,7 @@ def main():
                 graphics.balance_unchanged(
                     f"Your balance has not changed. Current balance: {earnings_info.balance}"
                 )
-                webhook_templates.balance_unchanged(
+                webhook_templates.balance_changed(
                     config.WEBHOOK_URL,
                     user_info,
                     earnings_info,

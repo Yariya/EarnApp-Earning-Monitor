@@ -25,15 +25,23 @@ class WebhookTemplate:
         webhook.add_embed(embed)
         webhook.execute()
 
-    def balance_increased(self, webhook_url, user_info, earnings_info, devices_info, previous_balance):
+    def balance_changed(self, webhook_url, user_info, earnings_info, devices_info, previous_balance):
         webhook = DiscordWebhook(url=webhook_url, rate_limit_retry=True)
+        change = round(earnings_info.balance - previous_balance, 2)
+        if change > 0:
+            description = "Your EarnApp Balance has been updated!"
+            color = "03B2F8"
+        else:
+            description = "Your EarnApp Balance has not changed."
+            color = "E67E22"
+        
         embed = DiscordEmbed(
             title="Balance Updated!",
-            description="Your EarnApp Balance has been updated!",
-            color="03b2f8"
+            description=description,
+            color=color
         )
         embed.set_thumbnail(url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
-        embed.add_embed_field(name="Earned", value=f"+{round(earnings_info.balance - previous_balance, 2)}$")
+        embed.add_embed_field(name="Earned", value=f"+{change}$")
         embed.add_embed_field(name="Balance", value=f"{earnings_info.balance}$")
         embed.add_embed_field(name="Total Earnings", value=f"{earnings_info.earnings_total}$")
         embed.add_embed_field(name="Referral Balance", value=f"{earnings_info.bonuses}$")
@@ -57,20 +65,4 @@ class WebhookTemplate:
         embed.set_footer(text=f"You are earning with {devices_info.total_devices} Devices",icon_url="https://img.icons8.com/color/64/000000/paypal.png")
         webhook.add_embed(embed)
         webhook.execute()
-    
-    def balance_unchanged(self, webhook_url, user_info, earnings_info, devices_info, previous_balance):
-        webhook = DiscordWebhook(url=webhook_url, rate_limit_retry=True)
-        embed = DiscordEmbed(
-            title="Balance has not updated!",
-            color="E67E22"
-        )
-        embed.set_thumbnail(url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
-        embed.add_embed_field(name="Earned", value=f"+{earnings_info.balance - previous_balance}$")
-        embed.add_embed_field(name="Balance", value=f"{earnings_info.balance}$")
-        embed.add_embed_field(name="Total Earnings", value=f"{earnings_info.earnings_total}$")
-        embed.add_embed_field(name="Referral Balance", value=f"{earnings_info.bonuses}$")
-        embed.add_embed_field(name="Total Referral Earning", value=f"{earnings_info.bonuses_total}$")
-        embed.add_embed_field(name="Multiplier", value=f"{earnings_info.multiplier}")
-        embed.set_footer(text=f"You are earning with {devices_info.total_devices} Devices",icon_url="https://img.icons8.com/color/64/000000/paypal.png")
-        webhook.add_embed(embed)
-        webhook.execute()
+

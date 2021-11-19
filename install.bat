@@ -1,3 +1,3 @@
 @echo off
-python -m pip install -r requirements.txt --upgrade
+python -m pip install --upgrade -r requirements.txt
 pause
