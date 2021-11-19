@@ -27,6 +27,7 @@ try:
     webhook_templates = WebhookTemplate()
 except (KeyboardInterrupt, SystemExit):
     graphics.warn("Received exit signal!")
+    exit()
 
 
 def test_discord_webhook():

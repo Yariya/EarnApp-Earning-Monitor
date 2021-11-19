@@ -46,4 +46,5 @@ class Graphics:
 ██║╚██╔╝██║██║   ██║██║╚██╗██║██║   ██║   ██║   ██║██╔══██╗
 ██║ ╚═╝ ██║╚██████╔╝██║ ╚████║██║   ██║   ╚██████╔╝██║  ██║
 ╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝
-by fazalfarhan01 (https://github.com/fazalfarhan01)"""
+by fazalfarhan01 (https://github.com/fazalfarhan01)
+Version: 2.1.2"""
