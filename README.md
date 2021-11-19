@@ -5,7 +5,7 @@ Containerised by [https://github.com/fazalfarhan01](https://github.com/fazalfarh
 
 ![Bot Started CLI](https://user-images.githubusercontent.com/45929854/142378521-13373e59-3657-4cb4-b89a-cde4890e7065.png)![Bot Started](https://user-images.githubusercontent.com/45929854/142378687-e31c454b-6662-4dc9-ac32-666c13fab3fe.png)![Balance Update](https://user-images.githubusercontent.com/45929854/142378692-47ff492f-370c-4e02-bfe1-7851959b9166.png)
 
-
+NOTE: `This is not a trojan! This is completely open source and you can check the source for yourself. Nothing is obfuscated.`
 
 
 
@@ -40,7 +40,7 @@ docker run -d --restart always --name earnapp-monitor
 - Download the executable file from [releases](https://github.com/Yariya/EarnApp-Earning-Monitor/releases)
 - Double click and run. (`Windows Defender might detect it as a trojan. Nothing to worry, it's a false positive. You will have to allow it from windows defender's protection history.`)
 
-## Windows/Linux
+## Windows Installation
 
 - Install [Python3](https://www.python.org/downloads/)
 - Download or clone this repo.
@@ -49,6 +49,15 @@ docker run -d --restart always --name earnapp-monitor
   * `pip3 install discord_webhook pyEarnapp colorama`
   - On Windows, run `install.bat`
 - Run `start.bat`
+
+## Linux Installation
+ - Install [Python3](https://www.python.org/downloads/)
+ - Download or clone this repo.
+ - Unzip and put in directory
+ - Install Dependencies
+   # `pip3 install discord_webhook pyEarnapp colorama`
+   - On Linux, run `install.sh`
+ - Run `start.sh`
 
 ### How to get Google Auth
 1) Go to the EarnApp [Dashboard](https://earnapp.com/dashboard/)
