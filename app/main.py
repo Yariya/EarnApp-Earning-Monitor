@@ -81,7 +81,7 @@ def main():
             devices_info = api.get_devices_info()
             transaction_info = api.get_transaction_info()
 
-            # Balance increased
+            # Balance changed
             if round(earnings_info.balance - previous_balance, 2) != 0:
                 # After a redeem request, the initial balance is assumed to be 0.
                 if earnings_info.balance < previous_balance:
@@ -91,42 +91,35 @@ def main():
                 graphics.balance_increased(
                     f"+{round((earnings_info.balance - previous_balance),2)}$"
                 )
-                webhook_templates.balance_changed(
-                    config.WEBHOOK_URL,
-                    user_info,
-                    earnings_info,
-                    devices_info,
-                    previous_balance
-                )
             else:
                 graphics.balance_unchanged("Balance not changed.")
                 graphics.balance_unchanged(
                     f"Your balance has not changed. Current balance: {earnings_info.balance}"
                 )
-                webhook_templates.balance_changed(
-                    config.WEBHOOK_URL,
-                    user_info,
-                    earnings_info,
-                    devices_info,
-                    previous_balance
-                )
+
+            webhook_templates.balance_update(
+                config.WEBHOOK_URL,
+                user_info,
+                earnings_info,
+                devices_info,
+                previous_balance
+            )
 
             # new redeem request
-            graphics.info(
-                f"Number of transactions: {transaction_info.total_transactions}")
+            graphics.info(f"Number of transactions: {transaction_info.total_transactions}")
             if transaction_info.total_transactions == previous_number_of_transactions:
                 graphics.info("No new transactions found.")
             elif transaction_info.total_transactions > previous_number_of_transactions:
                 graphics.new_transaction("New redeem request detected.")
                 graphics.new_transaction(
-                    f"Redeemed {transaction_info[0].amount}$ via {transaction_info[0].payment_method}"
+                    f"Redeemed {transaction_info.transactions[0].amount}$ via {transaction_info.transactions[0].payment_method}"
                 )
                 webhook_templates.new_transaction(
                     config.WEBHOOK_URL,
                     user_info,
                     earnings_info,
                     devices_info,
-                    transaction_info
+                    transaction_info.transactions[0]
                 )
 
             # update historical data
