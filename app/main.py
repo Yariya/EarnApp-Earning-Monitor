@@ -51,29 +51,34 @@ def main():
 
     while(True):
         # run every hour at *:02 UTC
-        if datetime.now(timezone.utc).strftime("%M") == "02":
+        # if datetime.now(timezone.utc).strftime("%M") == "02":
+        if True:
             info.get_info()
 
+            # calculate changes
+            balance_change = round(
+                info.earnings_info.balance - info.previous_balance, 2)
+            traffic_change = round(
+                (info.devices_info.total_bandwidth_usage -
+                 info.previous_bandwidth_usage)/(1024**2), 2)
+            bandwidth = round(
+                info.devices_info.total_bandwidth_usage/(1024**2), 2)
+
             # Balance changed
-            if round(info.earnings_info.balance - info.previous_balance, 2) != 0:
+            if balance_change != 0:
                 # After a redeem request, the initial balance is assumed to be 0.
                 if info.earnings_info.balance < info.previous_balance:
                     info.previous_balance = 0
                 graphics.balance_increased("Balance Updated.")
+                graphics.balance_increased(f"+{balance_change}$")
                 graphics.balance_increased(
-                    f"+{round((info.earnings_info.balance - info.previous_balance),2)}$"
-                )
-                graphics.balance_increased(
-                    f"Traffic +{info.devices_info.total_bandwidth_usage-info.previous_bandwidth_usage}MB")
+                    f"Traffic +{traffic_change}MB")
+            # if no balance change
             else:
                 graphics.balance_unchanged(
-                    f"Your balance has not changed. Current balance: {info.earnings_info.balance}"
-                )
-                traffic_change = round(
-                    (info.devices_info.total_bandwidth_usage - \
-                        info.previous_bandwidth_usage)/(1024*1024), 2)
+                    f"Your balance has not changed. Current balance: {info.earnings_info.balance}")
                 graphics.balance_unchanged(
-                    f"Traffic +{traffic_change}MB")
+                    f"No traffic change detected. Current bandwidth usage: {bandwidth} MB")
             webhook_templates.balance_update(info)
 
             # new redeem request

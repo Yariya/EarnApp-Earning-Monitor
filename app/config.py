@@ -15,14 +15,14 @@ class Configuration:
                 self.ask_config()
         else:
             self.ask_config()
-            
+
     def ask_config(self):
         self.AUTH = (input("Enter the oauth-refresh-token from EarnApp dashboard\n\t: ")
-                         if os.environ.get("AUTH") is None else os.environ.get("AUTH"))
+                     if os.environ.get("AUTH") is None else os.environ.get("AUTH"))
 
         # time to wait in seconds after the UTC time at which EarnApp Updates
         self.DELAY = (60 if os.environ.get("DELAY")
-                        is None else int(os.environ.get("DELAY")))
+                      is None else int(os.environ.get("DELAY")))
 
         self.WEBHOOK_URL = (input("Enter the Discord WebHook URL\n\t: ") if os.environ.get(
             "WEBHOOK_URL") is None else os.environ.get("WEBHOOK_URL"))
@@ -40,7 +40,6 @@ class Configuration:
                 self.__reuse_config = False
             else:
                 print("Didn't quiet understand, try again!")
-
 
     def check_for_existing_config(self):
         self.home_directory = os.path.expanduser("~")

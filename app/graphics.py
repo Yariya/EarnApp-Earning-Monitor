@@ -4,7 +4,7 @@ from colorama import Fore
 class Graphics:
     def print_app_title(self):
         print(self.app_title)
-    
+
     def success(self, message):
         print(f"\t{Fore.LIGHTGREEN_EX}[✓] {message}")
 
@@ -17,13 +17,13 @@ class Graphics:
     def info(self, message):
         print(f"\t{Fore.LIGHTBLUE_EX}[i] {message}")
 
-    def balance_increased(self,message):
+    def balance_increased(self, message):
         print(f"\t{Fore.GREEN}[💰] {message}")
 
-    def new_transaction(self,message):
+    def new_transaction(self, message):
         print(f"\t{Fore.GREEN}[🤑] {message}")
 
-    def balance_unchanged(self,message):
+    def balance_unchanged(self, message):
         print(f"\t{Fore.YELLOW}[💱] {message}")
 
     def __init__(self) -> None:
