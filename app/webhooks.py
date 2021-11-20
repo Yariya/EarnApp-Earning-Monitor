@@ -23,7 +23,7 @@ class WebhookTemplate:
         embed.add_embed_field(name="Lifetime Balance", value=f"{info.earnings_info.earnings_total}")
         embed.add_embed_field(name="Total Devices", value=f"{info.devices_info.total_devices}")
         embed.add_embed_field(name="Devices", value=f"{info.devices_info.windows_devices} Windows | {info.devices_info.linux_devices} Linux | {info.devices_info.other_devices} Others", inline=False)
-        embed.set_footer(text=f"Version 2.1.2 by toothyraider201", icon_url="https://img.icons8.com/color/64/000000/paypal.png")
+        embed.set_footer(text=f"Version 2.1.3 by toothyraider201", icon_url="https://img.icons8.com/color/64/000000/paypal.png")
         webhook.add_embed(embed)
         webhook.execute()
 
