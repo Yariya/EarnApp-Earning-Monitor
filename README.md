@@ -39,6 +39,10 @@ docker run -d --restart always --name earnapp-monitor
 ## Windows
 - Download the executable file from [releases](https://github.com/Yariya/EarnApp-Earning-Monitor/releases)
 - Double click and run. (`Windows Defender might detect it as a trojan. Nothing to worry, it's a false positive. You will have to allow it from windows defender's protection history.`)
+### Need more help?
+Check out this video.
+
+[![image](https://user-images.githubusercontent.com/45929854/142722065-6d765156-87f0-4c58-b4c3-2a21ea83ebc7.png)](https://www.youtube.com/watch?v=KBGQSFEdIsc)
 
 ## Windows Installation
 
