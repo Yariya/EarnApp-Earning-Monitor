@@ -40,10 +40,10 @@ class WebhookTemplate:
         change = round(info.earnings_info.balance - info.previous_balance, 2)
 
         if change > 0:
-            description = "Your EarnApp Balance has been updated!"
+            title = "Your EarnApp Balance has been updated!"
             color = "03F8C4"
         else:
-            description = "Your EarnApp Balance has not changed."
+            title = "Your EarnApp Balance has not changed."
             color = "E67E22"
         traffic_change = round(
             (info.devices_info.total_bandwidth_usage -
@@ -55,8 +55,7 @@ class WebhookTemplate:
             value = f'{round(change/(traffic_change/1024) ,2)} $/GB'
 
         embed = DiscordEmbed(
-            title="Balance Updated!",
-            description=description,
+            title=title,
             color=color
         )
         embed.set_thumbnail(
