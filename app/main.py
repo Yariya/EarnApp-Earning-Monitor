@@ -51,8 +51,7 @@ def main():
 
     while(True):
         # run every hour at *:02 UTC
-        # if datetime.now(timezone.utc).strftime("%M") == "02":
-        if True:
+        if datetime.now(timezone.utc).strftime("%M") == "02":
             info.get_info()
 
             # calculate changes
