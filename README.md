@@ -44,7 +44,7 @@ Check out this video.
 
 [![image](https://user-images.githubusercontent.com/45929854/142722065-6d765156-87f0-4c58-b4c3-2a21ea83ebc7.png)](https://www.youtube.com/watch?v=KBGQSFEdIsc)
 
-## Windows Installation
+## Windows Installation From Source
 
 - Install [Python3](https://www.python.org/downloads/)
 - Download or clone this repo.
