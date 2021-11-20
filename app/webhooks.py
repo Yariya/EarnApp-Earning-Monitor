@@ -66,7 +66,7 @@ class WebhookTemplate:
             color="07FF70"
         )
         embed.set_thumbnail(url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
-        embed.add_embed_field(name="UUID", value=f"+{transaction.uuid}$")
+        embed.add_embed_field(name="UUID", value=f"{transaction.uuid}")
         embed.add_embed_field(name="Amount", value=f"+{transaction.amount}$")
         embed.add_embed_field(name="Method", value=f"{transaction.payment_method}")
         embed.add_embed_field(name="Status", value=f"{transaction.status}")
