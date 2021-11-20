@@ -40,10 +40,10 @@ class WebhookTemplate:
         change = round(info.earnings_info.balance - info.previous_balance, 2)
 
         if change > 0:
-            title = "Your EarnApp Balance has been updated!"
+            title = "Balance Updated!"
             color = "03F8C4"
         else:
-            title = "Your EarnApp Balance has not changed."
+            title = "Balance Unchanged!"
             color = "E67E22"
         traffic_change = round(
             (info.devices_info.total_bandwidth_usage -
