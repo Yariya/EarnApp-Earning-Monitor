@@ -85,6 +85,7 @@ def main():
             # update historical data
             info.previous_balance = info.earnings_info.balance
             info.previous_number_of_transactions = info.transaction_info.total_transactions
+            info.previous_bandwidth_usage = info.devices_info.total_bandwidth_usage
 
             # wait for the minute to end
             sleep(120)
