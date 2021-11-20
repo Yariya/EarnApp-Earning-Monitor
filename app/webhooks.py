@@ -52,8 +52,8 @@ class WebhookTemplate:
         if change == 0 or traffic_change == 0:
             value = "No change in traffic."
         else:
-            value = f'{change/(traffic_change/1024)} $/GB'
-        
+            value = f'{round(change/(traffic_change/1024) ,2)} $/GB'
+
         embed = DiscordEmbed(
             title="Balance Updated!",
             description=description,
