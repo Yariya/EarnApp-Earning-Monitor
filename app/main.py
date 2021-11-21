@@ -54,20 +54,30 @@ def main():
         if datetime.now(timezone.utc).strftime("%M") == "02":
             info.get_info()
 
-            # calculate changes
-            balance_change = round(
-                info.earnings_info.balance - info.previous_balance, 2)
-            traffic_change = round(
-                (info.devices_info.total_bandwidth_usage -
-                 info.previous_bandwidth_usage)/(1024**2), 2)
+            # initiallise locals
+            balance_change = 0
+            traffic_change = 0
             bandwidth = round(
                 info.devices_info.total_bandwidth_usage/(1024**2), 2)
 
+            def calculate_changes():
+                nonlocal balance_change, traffic_change
+                # calculate changes
+                balance_change = round(
+                    info.earnings_info.balance - info.previous_balance, 2)
+                traffic_change = round((info.devices_info.total_bandwidth_usage -
+                                        info.previous_bandwidth_usage)/(1024**2), 2)
+
+            calculate_changes()
+
             # Balance changed
             if balance_change != 0:
-                # After a redeem request, the initial balance is assumed to be 0.
+                # After a redeem request, the initial balance & initial traffic is assumed to be 0.
                 if info.earnings_info.balance < info.previous_balance:
                     info.previous_balance = 0
+                    info.previous_bandwidth_usage = 0
+                    calculate_changes()
+
                 graphics.balance_increased("Balance Updated.")
                 graphics.balance_increased(f"+{balance_change}$")
                 graphics.balance_increased(
