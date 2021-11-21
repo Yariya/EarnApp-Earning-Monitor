@@ -40,9 +40,15 @@ def test_discord_webhook(graphics, webhook_url: str):
     if response.status_code == 401:
         graphics.error("Looks like a wrong webhook URL.")
         exit()
+    elif response.status_code == 404:
+        graphics.error("Webhook URL doesn't exist. Try recreating it on discord.")
+        exit()
     elif response.status_code == 200:
         graphics.success("Webhook test successful.")
-    webhook.delete(response)
+        webhook.delete(response)
+    else:
+        graphics.error(f"Unknown Webhook Error, Error Code: {response.status_code}")
+        exit()
 
 
 def check_redeem_requests(graphics, info, webhook_templates):
