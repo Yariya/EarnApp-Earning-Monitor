@@ -30,7 +30,9 @@ class WebhookTemplate:
                               value=f"{info.devices_info.total_devices}")
         embed.add_embed_field(
             name="Devices", value=f"{info.devices_info.windows_devices} Windows | {info.devices_info.linux_devices} Linux | {info.devices_info.other_devices} Others", inline=False)
-        embed.set_footer(text=f"Version 2.1.3 by toothyraider201",
+        embed.add_embed_field(name="Bugs?",
+                              value=f"[Contact Devs.](https://github.com/Yariya/EarnApp-Earning-Monitor/issues)")
+        embed.set_footer(text=f"Version: 2.1.3",
                          icon_url="https://img.icons8.com/color/64/000000/paypal.png")
         webhook.add_embed(embed)
         webhook.execute()
@@ -54,6 +56,9 @@ class WebhookTemplate:
         else:
             value = f'{round(change/(traffic_change/1024) ,2)} $/GB'
 
+        total_earnings = info.earnings_info.earnings_total + \
+            info.earnings_info.bonuses_total
+
         embed = DiscordEmbed(
             title=title,
             color=color
@@ -63,14 +68,12 @@ class WebhookTemplate:
         embed.add_embed_field(name="Earned", value=f"+{change}$")
         embed.add_embed_field(name="Traffic", value=f"+{traffic_change} MB")
         embed.add_embed_field(name="Avg. Price/GB", value=value)
-        embed.add_embed_field(
-            name="Balance", value=f"{info.earnings_info.balance}$")
-        embed.add_embed_field(name="Total Earnings",
-                              value=f"{info.earnings_info.earnings_total}$")
+        embed.add_embed_field(name="Balance",
+                              value=f"{info.earnings_info.balance}$")
         embed.add_embed_field(name="Referral Balance",
                               value=f"{info.earnings_info.bonuses}$")
-        embed.add_embed_field(name="Total Referral Earning",
-                              value=f"{info.earnings_info.bonuses_total}$")
+        embed.add_embed_field(name="Total Earnings",
+                              value=f"{total_earnings}$")
         embed.add_embed_field(
             name="Multiplier", value=f"{info.earnings_info.multiplier}")
         embed.set_footer(text=f"You are earning with {info.devices_info.total_devices} Devices",
@@ -95,11 +98,8 @@ class WebhookTemplate:
         embed.add_embed_field(name="Status", value=f"{transaction.status}")
         embed.add_embed_field(
             name="Redeem Date", value=f"{transaction.redeem_date.strftime('%Y-%m-%d')}")
-        if transaction.is_paid:
-            footer_text = f"Paid on {transaction.payment_date.strftime('%Y-%m-%d')} via {transaction.payment_method}"
-        else:
-            footer_text = f"Payment expected on {transaction.payment_date.strftime('%Y-%m-%d')} via {transaction.payment_method}"
-
+        footer_text = f"Payment {transaction.status} as on {transaction.payment_date.strftime('%Y-%m-%d')} via {transaction.payment_method}"
+        
         embed.set_footer(
             text=footer_text, icon_url="https://img.icons8.com/color/64/000000/paypal.png")
         webhook.add_embed(embed)
