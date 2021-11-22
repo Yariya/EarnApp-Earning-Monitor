@@ -1,4 +1,4 @@
-from logging import info
+from sys import exit
 from pyEarnapp import EarnApp
 from pyEarnapp.errors import *
 from config import Configuration
@@ -28,6 +28,7 @@ try:
     webhook_templates = WebhookTemplate()
 except (KeyboardInterrupt, SystemExit):
     graphics.warn("Received exit signal!")
+    input("Press enter to continue:\n\t")
     exit()
 
 
@@ -112,4 +113,5 @@ if __name__ == "__main__":
         main()
     except (KeyboardInterrupt, SystemExit):
         graphics.warn("Received exit signal!")
+        input("Press enter to continue:\n\t")
         exit()
