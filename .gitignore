@@ -6,3 +6,4 @@ dist
 env
 /*.spec
 output
+/test

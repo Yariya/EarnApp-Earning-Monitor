@@ -56,8 +56,8 @@ class WebhookTemplate:
         else:
             value = f'{round(change/(traffic_change/1024) ,2)} $/GB'
 
-        total_earnings = info.earnings_info.earnings_total + \
-            info.earnings_info.bonuses_total
+        total_earnings = round(info.earnings_info.earnings_total +
+                               info.earnings_info.bonuses_total, 2)
 
         embed = DiscordEmbed(
             title=title,
@@ -99,7 +99,7 @@ class WebhookTemplate:
         embed.add_embed_field(
             name="Redeem Date", value=f"{transaction.redeem_date.strftime('%Y-%m-%d')}")
         footer_text = f"Payment {transaction.status} as on {transaction.payment_date.strftime('%Y-%m-%d')} via {transaction.payment_method}"
-        
+
         embed.set_footer(
             text=footer_text, icon_url="https://img.icons8.com/color/64/000000/paypal.png")
         webhook.add_embed(embed)
