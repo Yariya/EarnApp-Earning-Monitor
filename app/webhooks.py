@@ -72,7 +72,7 @@ class WebhookTemplate:
                               value=f"{info.earnings_info.balance}$")
         embed.add_embed_field(name="Referral Balance",
                               value=f"{info.earnings_info.bonuses}$")
-        embed.add_embed_field(name="Total Earnings",
+        embed.add_embed_field(name="Total Balance",
                               value=f"{total_earnings}$")
         embed.add_embed_field(
             name="Multiplier", value=f"{info.earnings_info.multiplier}")
