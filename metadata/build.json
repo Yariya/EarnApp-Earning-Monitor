@@ -7,7 +7,7 @@
   },
   {
    "optionDest": "filenames",
-   "value": "C:/Users/fazal/Documents/Projects/EarnApp-Earning-Monitor/app/main.py"
+   "value": "C:/Projects/EarnApp-Earning-Monitor/app/main.py"
   },
   {
    "optionDest": "onefile",
@@ -19,7 +19,7 @@
   },
   {
    "optionDest": "icon_file",
-   "value": "C:/Users/fazal/Documents/Projects/EarnApp-Earning-Monitor/Resources/earnapp.ico"
+   "value": "C:/Projects/EarnApp-Earning-Monitor/Resources/earnapp.ico"
   },
   {
    "optionDest": "name",
@@ -47,7 +47,7 @@
   },
   {
    "optionDest": "version_file",
-   "value": "C:/Users/fazal/Documents/Projects/EarnApp-Earning-Monitor/metadata/version.txt"
+   "value": "C:/Projects/EarnApp-Earning-Monitor/metadata/version.txt"
   },
   {
    "optionDest": "embed_manifest",
