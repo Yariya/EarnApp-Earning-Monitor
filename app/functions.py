@@ -23,9 +23,9 @@ def display_initial_info(graphics, info: AllInformation):
     graphics.info(f"Multiplier: {info.earnings_info.multiplier}")
     graphics.info(f"Balance: {info.earnings_info.balance}")
     graphics.info(f"Lifetime Balance: {info.earnings_info.earnings_total}")
-    graphics.info(f"Referral Balance: {info.earnings_info.bonuses}")
+    graphics.info(f"Referral Balance: -") #here
     graphics.info(
-        f"Lifetime Referral Balance: {info.earnings_info.bonuses_total}")
+        f"Lifetime Referral Balance: -") #here
     graphics.info(f"Total Devices: {info.devices_info.total_devices}")
     graphics.info(f"\tWindows: {info.devices_info.windows_devices}")
     graphics.info(f"\tLinux: {info.devices_info.linux_devices}")
