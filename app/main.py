@@ -1,6 +1,10 @@
+import sys
 from sys import exit
+
+sys.path.insert(1, "/pyEarnapp")
 from pyEarnapp import EarnApp
 from pyEarnapp.errors import *
+
 from config import Configuration
 from colorama import init
 from graphics import Graphics
@@ -50,7 +54,7 @@ def main():
     info.previous_number_of_transactions = info.transaction_info.total_transactions
     info.previous_bandwidth_usage = info.devices_info.total_bandwidth_usage
 
-    while(True):
+    while (True):
         # run every hour at *:02 UTC
         if datetime.now(timezone.utc).strftime("%M") == "02":
             info.get_info()
@@ -59,7 +63,7 @@ def main():
             balance_change = 0
             traffic_change = 0
             bandwidth = round(
-                info.devices_info.total_bandwidth_usage/(1024**2), 2)
+                info.devices_info.total_bandwidth_usage / (1024 ** 2), 2)
 
             def calculate_changes():
                 nonlocal balance_change, traffic_change
@@ -67,7 +71,7 @@ def main():
                 balance_change = round(
                     info.earnings_info.balance - info.previous_balance, 2)
                 traffic_change = round((info.devices_info.total_bandwidth_usage -
-                                        info.previous_bandwidth_usage)/(1024**2), 2)
+                                        info.previous_bandwidth_usage) / (1024 ** 2), 2)
 
             calculate_changes()
 
