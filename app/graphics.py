@@ -3,7 +3,7 @@ from colorama import Fore
 
 class Graphics:
     def print_app_title(self):
-        print(self.app_title)
+        print(self.app_title_gradient_new) # self.app_title
 
     def success(self, message):
         print(f"\t{Fore.LIGHTGREEN_EX}[✓] {message}")
