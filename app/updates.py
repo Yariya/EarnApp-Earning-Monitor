@@ -19,8 +19,10 @@ def check_for_updates():
                     "Please download the latest version from below link.")
                 graphics.info(
                     f"https://github.com/Yariya/EarnApp-Earning-Monitor/releases/download/{latest_version}/EarnApp-Earning-Monitor.exe")
+                return True
             else:
                 graphics.success("You are on the latest version.")
+                return False
     except:
         graphics.error("Error checking for updates.")
 

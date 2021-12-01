@@ -103,3 +103,20 @@ class WebhookTemplate:
             text=footer_text, icon_url="https://img.icons8.com/color/64/000000/paypal.png")
         webhook.add_embed(embed)
         webhook.execute()
+
+    def update_available(self, webhook_url):
+        webhook = DiscordWebhook(url=webhook_url, rate_limit_retry=True)
+        embed = DiscordEmbed(
+            title="New Update Available",
+            color="D580FF"
+        )
+        embed.set_thumbnail(
+            url="https://img.icons8.com/fluency/256/000000/update-left-rotation.png")
+        embed.add_embed_field(
+            name="Update", value="[Download](https://github.com/Yariya/EarnApp-Earning-Monitor/releases)")
+        footer_text = f"Update to the latest version now."
+
+        embed.set_footer(
+            text=footer_text, icon_url="https://img.icons8.com/fluency/256/000000/update-left-rotation.png")
+        webhook.add_embed(embed)
+        webhook.execute()

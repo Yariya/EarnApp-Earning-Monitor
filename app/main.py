@@ -35,7 +35,8 @@ except (KeyboardInterrupt, SystemExit):
 
 def main():
     graphics.info("Checking for updates.")
-    check_for_updates()
+    if check_for_updates():
+        webhook_templates.update_available(config.WEBHOOK_URL)
     global info
     try:
         # Earnapp
@@ -106,7 +107,8 @@ def main():
             info.previous_bandwidth_usage = info.devices_info.total_bandwidth_usage
 
             # wait for the minute to end
-            check_for_updates()
+            if check_for_updates():
+                webhook_templates.update_available(config.WEBHOOK_URL)
             sleep(120)
         # Delay to check if it's time to ping earnapp
         sleep(10)
