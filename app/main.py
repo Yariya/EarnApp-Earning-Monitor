@@ -1,10 +1,4 @@
-import sys
 from sys import exit
-
-sys.path.insert(1, "/pyEarnapp")
-from pyEarnapp import EarnApp
-from pyEarnapp.errors import *
-
 from config import Configuration
 from colorama import init
 from graphics import Graphics
@@ -12,6 +6,8 @@ from webhooks import WebhookTemplate
 from time import sleep
 from datetime import datetime, timezone
 from functions import AllInformation, display_initial_info, test_discord_webhook, check_redeem_requests
+from pyEarnapp import EarnApp
+from pyEarnapp.errors import *
 
 # initiallise colorama
 init(autoreset=True)
