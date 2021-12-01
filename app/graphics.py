@@ -1,9 +1,10 @@
 from colorama import Fore
 
+VERSION = "2.1.7"
 
 class Graphics:
     def print_app_title(self):
-        print(self.app_title_gradient_new) # self.app_title
+        print(self.app_title_gradient_new)  # self.app_title
 
     def success(self, message):
         print(f"\t{Fore.LIGHTGREEN_EX}[✓] {message}")
@@ -47,7 +48,9 @@ class Graphics:
 ██║ ╚═╝ ██║╚██████╔╝██║ ╚████║██║   ██║   ╚██████╔╝██║  ██║
 ╚═╝     ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝
 by fazalfarhan01 (https://github.com/fazalfarhan01)
-Version: 2.1.6"""
+
+App Version: {VERSION}"""
+
         self.app_title_gradient_new = f"""{Fore.CYAN}
  /$$$$$$$$                                /$$$$$$                     
 | $$_____/                               /$$__  $$                    
@@ -57,8 +60,9 @@ Version: 2.1.6"""
 | $$       /$$__  $$| $$      | $$  | $$| $$  | $$| $$  | $$| $$  | $$
 | $$$$$$$$|  $$$$$$$| $$      | $$  | $$| $$  | $$| $$$$$$$/| $$$$$$$/
 |________/ \_______/|__/      |__/  |__/|__/  |__/| $$____/ | $$____/ 
-                    Monitor                       | $$      | $$      
-                                                  | $$      | $$      
- github.com/Yariya & github.com/fazalfarhan01     |__/      |__/                                                                                                                             
-        """
+            Earnings Monitor                      | $$      | $$      
+by:                                               | $$      | $$      
+   github.com/Yariya & github.com/fazalfarhan01   |__/      |__/
 
+App Version: {VERSION}
+"""

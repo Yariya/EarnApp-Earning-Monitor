@@ -92,4 +92,4 @@ Check out this video.
 - [EarnApp](https://earnapp.com/)
 - Thanks to [fazalfarhan01](https://github.com/fazalfarhan01) for completely reworking this project :)
 ## Version
-- 2.1.6
+- 2.1.7

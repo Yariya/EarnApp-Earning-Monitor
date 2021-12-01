@@ -8,6 +8,7 @@ from datetime import datetime, timezone
 from functions import AllInformation, display_initial_info, test_discord_webhook, check_redeem_requests
 from pyEarnapp import EarnApp
 from pyEarnapp.errors import *
+from updates import check_for_updates
 
 # initiallise colorama
 init(autoreset=True)
@@ -33,6 +34,8 @@ except (KeyboardInterrupt, SystemExit):
 
 
 def main():
+    graphics.info("Checking for updates.")
+    check_for_updates()
     global info
     try:
         # Earnapp
@@ -103,6 +106,7 @@ def main():
             info.previous_bandwidth_usage = info.devices_info.total_bandwidth_usage
 
             # wait for the minute to end
+            check_for_updates()
             sleep(120)
         # Delay to check if it's time to ping earnapp
         sleep(10)
