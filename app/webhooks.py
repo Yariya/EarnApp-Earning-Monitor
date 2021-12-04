@@ -70,7 +70,7 @@ class WebhookTemplate:
         embed.add_embed_field(name="Balance",
                               value=f"{info.earnings_info.balance}$")
         embed.add_embed_field(name="Referral Balance",
-                              value=f"-")
+                              value=f"{info.earnings_info.bonuses}$")
         embed.add_embed_field(name="Lifetime Balance",
                               value=f"{info.earnings_info.earnings_total}$")
         embed.add_embed_field(
