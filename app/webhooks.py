@@ -75,7 +75,7 @@ class WebhookTemplate:
                               value=f"{info.earnings_info.earnings_total}$")
         embed.add_embed_field(
             name="Multiplier", value=f"{info.earnings_info.multiplier}")
-        embed.set_footer(text=f"You are earning with {info.devices_info.banned_devices}/{info.devices_info.total_devices} Devices",
+        embed.set_footer(text=f"You are earning with {info.devices_info.total_devices - info.devices_info.banned_devices}/{info.devices_info.total_devices} Devices",
                          icon_url="https://img.icons8.com/color/64/000000/paypal.png")
         webhook.add_embed(embed)
         webhook.execute()
