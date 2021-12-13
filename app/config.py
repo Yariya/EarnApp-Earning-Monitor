@@ -31,11 +31,11 @@ class Configuration:
     def __want_to_reset_config(self):
         got_response = False
         while(not got_response):
-            response = input("Want to use existing configuration? (yes/no): ")
-            if response.lower() == "yes":
+            response = input("Want to use existing configuration? (y/n): ")
+            if response.lower() == "yes" or response.lower() == "y" or response.lower() == "Y":
                 got_response = True
                 self.__reuse_config = True
-            elif response.lower() == "no":
+            elif response.lower() == "no" or response.lower() == "n" or response.lower() == "N":
                 got_response = True
                 self.__reuse_config = False
             else:
