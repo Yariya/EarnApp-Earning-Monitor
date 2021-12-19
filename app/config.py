@@ -32,6 +32,9 @@ class Configuration:
         self.create_config()
 
     def __want_to_reset_config(self):
+        if os.environ.get('container', False) == 'docker':
+            self.__reuse_config = True
+            return
         got_response = False
         while(not got_response):
             response = input("Want to use existing configuration? (yes/no): ")
