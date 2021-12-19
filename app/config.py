@@ -1,11 +1,14 @@
 import os
 import io
 import json
+from time import sleep
 
 
 class Configuration:
     def __init__(self) -> None:
         self.check_for_existing_config()
+        # Delay before checking env. Solves docker issues.
+        sleep(2)
         # if config doesn't exist
         if self.config_file_exists:
             self.__want_to_reset_config()
