@@ -54,18 +54,21 @@ class Configuration:
         self.config_file_exists = os.path.exists(self.config_file_path)
 
     def create_config(self):
-        # If config file doesn't exist
-        if not self.config_file_exists:
-            # If direcotry doesn't exist, create dir
-            if not os.path.exists(self.program_directory):
-                os.mkdir(self.program_directory)
-        config = {
-            "AUTH": self.AUTH,
-            "DELAY": self.DELAY,
-            "WEBHOOK_URL": self.WEBHOOK_URL
-        }
-        with io.open(self.config_file_path, "w", encoding="utf-8") as stream:
-            json.dump(config, stream, indent=0)
+        if os.environ.get('container', False) == 'docker':
+            print("Detected container runtime.")
+        else:
+            # If config file doesn't exist
+            if not self.config_file_exists:
+                # If direcotry doesn't exist, create dir
+                if not os.path.exists(self.program_directory):
+                    os.mkdir(self.program_directory)
+            config = {
+                "AUTH": self.AUTH,
+                "DELAY": self.DELAY,
+                "WEBHOOK_URL": self.WEBHOOK_URL
+            }
+            with io.open(self.config_file_path, "w", encoding="utf-8") as stream:
+                json.dump(config, stream, indent=0)
 
     def load_config(self):
         with io.open(self.config_file_path, "r", encoding="utf-8") as stream:
