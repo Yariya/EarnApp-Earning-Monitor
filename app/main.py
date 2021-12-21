@@ -40,7 +40,7 @@ def main():
     global info
     try:
         # Earnapp
-        info = AllInformation(config.WEBHOOK_URL, api)
+        info = AllInformation(config.WEBHOOK_URL, api, graphics)
         # Discord Webhook
         test_discord_webhook(graphics, config.WEBHOOK_URL)
     except AuthenticationError:

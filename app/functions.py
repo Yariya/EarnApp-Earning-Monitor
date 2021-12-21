@@ -1,21 +1,29 @@
 from discord_webhook import DiscordWebhook
 from sys import exit
-
+import requests
+from graphics import Graphics
+from time import sleep
 
 class AllInformation:
-    def __init__(self, webhook_url: str, api) -> None:
+    def __init__(self, webhook_url: str, api, graphics:Graphics) -> None:
         self.api = api
         self.webhook_url = webhook_url
         self.previous_balance = 0
         self.previous_number_of_transactions = 0
         self.previous_bandwidth_usage = 0
+        self.graphics = graphics
         self.get_info()
 
     def get_info(self):
-        self.user_info = self.api.get_user_data()
-        self.earnings_info = self.api.get_earning_info()
-        self.devices_info = self.api.get_devices_info()
-        self.transaction_info = self.api.get_transaction_info()
+        try:
+            self.user_info = self.api.get_user_data()
+            self.earnings_info = self.api.get_earning_info()
+            self.devices_info = self.api.get_devices_info()
+            self.transaction_info = self.api.get_transaction_info()
+        except requests.exceptions.ConnectionError:
+            self.graphics.error("Connection closed by earnapp server. Retrying.")
+            sleep(5)
+            self.get_info()
 
 
 def display_initial_info(graphics, info: AllInformation):
