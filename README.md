@@ -21,6 +21,7 @@ services:
     image: fazalfarhan01/earnapp-earning-monitor
     restart: always
     environment:
+      DELAY: 2 # MINUTES TO WAIT AFTER UTC *:00 TO CHECK FOR UPDATE | DEFAULT 2 MINUTES
       AUTH: YOUR_AUTH_COOKIE_HERE
       WEBHOOK_URL: YOUR_WEBHOOK_URL_HERE
 ```
@@ -29,12 +30,13 @@ services:
 docker run -d --restart always --name earnapp-monitor \
 -e AUTH=YOUR_AUTH_COOKIE_HERE \
 -e WEBHOOK_URL=YOUR_WEBHOOK_URL_HERE \
+-e DELAY=2 \
 fazalfarhan01/earnapp-earning-monitor:python-latest
 ```
   - Example
   ```BASH
 docker run -d --restart always --name earnapp-monitor 
--e AUTH=1%2%adfbg-afvbfab-asfdbadbf -e WEBHOOK_URL=https://discord.com/api/webhooks/akjsdvasdvjafvb fazalfarhan01/earnapp-earning-monitor:python-latest
+-e AUTH=1%2%adfbg-afvbfab-asfdbadbf -e WEBHOOK_URL=https://discord.com/api/webhooks/akjsdvasdvjafvb -e DELAY=2 fazalfarhan01/earnapp-earning-monitor:python-latest
 ```
 
 ## Windows
@@ -92,4 +94,4 @@ Check out this video.
 - [EarnApp](https://earnapp.com/)
 - Thanks to [fazalfarhan01](https://github.com/fazalfarhan01) for completely reworking this project :)
 ## Version
-- 2.1.7.2
+- 2.1.7.3

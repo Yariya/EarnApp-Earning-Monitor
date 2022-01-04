@@ -24,7 +24,7 @@ class Configuration:
                      if os.environ.get("AUTH") is None else os.environ.get("AUTH"))
 
         # time to wait in seconds after the UTC time at which EarnApp Updates
-        self.DELAY = (60 if os.environ.get("DELAY")
+        self.DELAY = (2 if os.environ.get("DELAY")
                       is None else int(os.environ.get("DELAY")))
 
         self.WEBHOOK_URL = (input("Enter the Discord WebHook URL\n\t: ") if os.environ.get(

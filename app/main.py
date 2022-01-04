@@ -56,7 +56,7 @@ def main():
 
     while (True):
         # run every hour at *:02 UTC
-        if datetime.now(timezone.utc).strftime("%M") == "02":
+        if datetime.now(timezone.utc).strftime("%M") == str(f"{config.DELAY:02}"):
             info.get_info()
 
             # initiallise locals

@@ -34,7 +34,7 @@ class WebhookTemplate:
             name="Devices", value=f"{info.devices_info.windows_devices} Windows | {info.devices_info.linux_devices} Linux | {info.devices_info.other_devices} Others", inline=False)
         embed.add_embed_field(name="Bugs?",
                               value=f"[Contact Devs.](https://github.com/Yariya/EarnApp-Earning-Monitor/issues)")
-        embed.set_footer(text=f"Version: 2.1.7.2",
+        embed.set_footer(text=f"Version: 2.1.7.3",
                          icon_url="https://img.icons8.com/color/64/000000/paypal.png")
         webhook.add_embed(embed)
         webhook.execute()
@@ -44,7 +44,7 @@ class WebhookTemplate:
         change = round(info.earnings_info.balance - info.previous_balance, 2)
 
         if change > 0:
-            title = "Balance Updated!"
+            title = f"Balance Increased [+{change}]"
             color = "03F8C4"
         else:
             title = "Balance Unchanged!"
@@ -95,6 +95,7 @@ class WebhookTemplate:
         embed.add_embed_field(
             name="Method", value=f"{transaction.payment_method}")
         embed.add_embed_field(name="Status", value=f"{transaction.status}")
+        embed.add_embed_field(name="Email", value=f"{transaction.email}")
         embed.add_embed_field(
             name="Redeem Date", value=f"{transaction.redeem_date.strftime('%Y-%m-%d')}")
         footer_text = f"Payment {transaction.status} as on {transaction.payment_date.strftime('%Y-%m-%d')} via {transaction.payment_method}"
