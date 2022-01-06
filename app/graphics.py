@@ -1,6 +1,6 @@
 from colorama import Fore
 
-VERSION = "2.1.7.3"
+VERSION = "2.1.7.4"
 
 class Graphics:
     def print_app_title(self):
