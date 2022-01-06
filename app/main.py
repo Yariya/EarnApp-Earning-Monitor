@@ -5,7 +5,7 @@ from graphics import Graphics
 from webhooks import WebhookTemplate
 from time import sleep
 from datetime import datetime, timezone
-from functions import AllInformation, display_initial_info, test_discord_webhook, check_redeem_requests
+from functions import *
 from pyEarnapp import EarnApp
 from pyEarnapp.errors import *
 from updates import check_for_updates
@@ -32,7 +32,6 @@ except (KeyboardInterrupt, SystemExit):
     input("Press enter to continue:\n\t")
     exit()
 
-
 def main():
     graphics.info("Checking for updates.")
     if check_for_updates():
@@ -53,6 +52,8 @@ def main():
     info.previous_balance = info.earnings_info.balance
     info.previous_number_of_transactions = info.transaction_info.total_transactions
     info.previous_bandwidth_usage = info.devices_info.total_bandwidth_usage
+
+    next_update_in(config.DELAY, graphics)
 
     while (True):
         # run every hour at *:02 UTC

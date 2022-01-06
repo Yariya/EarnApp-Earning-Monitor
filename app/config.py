@@ -19,6 +19,11 @@ class Configuration:
         else:
             self.ask_config()
 
+        self.fix_bugs()
+
+    def fix_bugs(self):
+        self.__fix_delay_bug()
+
     def ask_config(self):
         self.AUTH = (input("Enter the oauth-refresh-token from EarnApp dashboard\n\t: ")
                      if os.environ.get("AUTH") is None else os.environ.get("AUTH"))
@@ -52,10 +57,8 @@ class Configuration:
         self.program_data_folder = ".earnapp-earning-monitor"
         self.config_file_name = "config.json"
 
-        self.program_directory = os.path.join(
-            self.home_directory, self.program_data_folder)
-        self.config_file_path = os.path.join(
-            self.program_directory, self.config_file_name)
+        self.program_directory = os.path.join(self.home_directory, self.program_data_folder)
+        self.config_file_path = os.path.join(self.program_directory, self.config_file_name)
 
         self.config_file_exists = os.path.exists(self.config_file_path)
 
@@ -74,7 +77,7 @@ class Configuration:
                 "WEBHOOK_URL": self.WEBHOOK_URL
             }
             with io.open(self.config_file_path, "w", encoding="utf-8") as stream:
-                json.dump(config, stream, indent=0)
+                json.dump(config, stream, indent=2)
 
     def load_config(self):
         with io.open(self.config_file_path, "r", encoding="utf-8") as stream:
@@ -83,6 +86,11 @@ class Configuration:
             self.DELAY = config_data["DELAY"]
             self.WEBHOOK_URL = config_data["WEBHOOK_URL"]
 
+    def __fix_delay_bug(self):
+        if self.DELAY < 0 or self.DELAY >= 60:
+            print('Found invalid delay configuration. Fixing..!')
+            self.DELAY = 2
+            self.create_config()
 
 if __name__ == "__main__":
     config = Configuration()
