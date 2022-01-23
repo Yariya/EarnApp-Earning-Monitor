@@ -59,6 +59,7 @@ Check out this video.
 
 ## Linux Installation
  - Install [Python3](https://www.python.org/downloads/)
+ - Install python3-pip
  - Download or clone this repo.
  - Unzip and put in directory
  - Install Dependencies
