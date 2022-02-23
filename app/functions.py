@@ -1,3 +1,5 @@
+import json
+
 from discord_webhook import DiscordWebhook
 from sys import exit
 import requests
@@ -13,6 +15,8 @@ class AllInformation:
         self.previous_number_of_transactions = 0
         self.previous_bandwidth_usage = 0
         self.graphics = graphics
+        self.cachedON = 0
+        self.cachedOFF = 0
         self.get_info()
 
     def get_info(self):
@@ -21,6 +25,7 @@ class AllInformation:
             self.earnings_info = self.api.get_earning_info()
             self.devices_info = self.api.get_devices_info()
             self.transaction_info = self.api.get_transaction_info()
+            self.device_status = self.api.get_device_statuses()
         except requests.exceptions.ConnectionError:
             self.graphics.error("Connection closed by earnapp server. Retrying.")
             sleep(5)
