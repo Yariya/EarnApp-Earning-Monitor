@@ -1,4 +1,7 @@
 from .transactions import RedeemDetails
+
+
+
 class EarningInfo:
     def __init__(self, json_earning_info: dict) -> None:
         self.balance = json_earning_info.get(

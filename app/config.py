@@ -34,6 +34,10 @@ class Configuration:
 
         self.WEBHOOK_URL = (input("Enter the Discord WebHook URL\n\t: ") if os.environ.get(
             "WEBHOOK_URL") is None else os.environ.get("WEBHOOK_URL"))
+
+        self.AUTO_REDEEM = (input("Do you want to auto redeem when an certain balance is exceeded?\nThis will prevent payouts of getting approved and checked.\nYou will get your money faster.\n\tIf you don't want to use this feature put 0 here\n\t: ") if os.environ.get(
+            "AUTO_REDEEM") is None else os.environ.get("AUTO_REDEEM"))
+
         self.create_config()
 
     def __want_to_reset_config(self):
@@ -74,7 +78,8 @@ class Configuration:
             config = {
                 "AUTH": self.AUTH,
                 "DELAY": self.DELAY,
-                "WEBHOOK_URL": self.WEBHOOK_URL
+                "WEBHOOK_URL": self.WEBHOOK_URL,
+                "AUTO_REDEEM_VALUE": self.AUTO_REDEEM,
             }
             with io.open(self.config_file_path, "w", encoding="utf-8") as stream:
                 json.dump(config, stream, indent=2)
@@ -85,6 +90,7 @@ class Configuration:
             self.AUTH = config_data["AUTH"]
             self.DELAY = config_data["DELAY"]
             self.WEBHOOK_URL = config_data["WEBHOOK_URL"]
+            self.AUTO_REDEEM = config_data["AUTO_REDEEM_VALUE"]
 
     def __fix_delay_bug(self):
         if self.DELAY < 0 or self.DELAY >= 60:

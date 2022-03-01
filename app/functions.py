@@ -15,8 +15,7 @@ class AllInformation:
         self.previous_number_of_transactions = 0
         self.previous_bandwidth_usage = 0
         self.graphics = graphics
-        self.cachedON = 0
-        self.cachedOFF = 0
+
         self.get_info()
 
     def get_info(self):
@@ -33,6 +32,7 @@ class AllInformation:
 
 
 def display_initial_info(graphics, info: AllInformation):
+
     graphics.info(f"Username: {info.user_info.name}")
     graphics.info(f"Multiplier: {info.earnings_info.multiplier}")
     graphics.info(f"Balance: {info.earnings_info.balance}")

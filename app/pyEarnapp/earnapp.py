@@ -1,4 +1,3 @@
-# https://github.com/fazalfarhan01/EarnApp-API
 import requests
 from urllib.parse import urljoin
 import json

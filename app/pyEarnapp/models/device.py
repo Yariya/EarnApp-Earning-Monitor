@@ -37,6 +37,7 @@ class DevicesInfo:
         self.linux_devices = 0
         self.other_devices = 0
         self.banned_devices = 0
+
         self.total_bandwidth_usage = 0
 
         for device in json_devices_info:

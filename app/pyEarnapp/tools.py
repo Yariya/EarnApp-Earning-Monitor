@@ -1,4 +1,3 @@
-# https://github.com/fazalfarhan01/EarnApp-API
 import re
 
 class Dict2Class(object):
