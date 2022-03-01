@@ -1,3 +1,4 @@
+import os
 from sys import exit
 from config import Configuration
 from colorama import init
@@ -6,9 +7,11 @@ from webhooks import WebhookTemplate
 from time import sleep
 from datetime import datetime, timezone
 from functions import *
+import matplotlib.dates as mdates
 from pyEarnapp import EarnApp
 from pyEarnapp.errors import *
 from updates import check_for_updates
+import matplotlib.pyplot as plt
 
 # initiallise colorama
 init(autoreset=True)
@@ -31,10 +34,15 @@ except (KeyboardInterrupt, SystemExit):
     graphics.warn("Received exit signal!")
     exit()
 
+
+
+
+
 def main():
     graphics.info("Checking for updates.")
-    if check_for_updates():
-        webhook_templates.update_available(config.WEBHOOK_URL)
+    updateCheck = check_for_updates()
+    if updateCheck != "":
+        webhook_templates.update_available(config.WEBHOOK_URL, updateCheck)
     global info, device_status_change
     try:
         # Earnapp
@@ -84,8 +92,13 @@ def main():
 
     device_changes()
 
+    trafficGraph = [0 for x in range(24)]
+    c = 0
+    startTime = datetime.now(timezone.utc).strftime("%H")
+
     while 1:
         # run every hour at *:05 UTC
+
         if datetime.now(timezone.utc).strftime("%M") == str(f"{config.DELAY+3:02}"):
             info.get_info()
 
@@ -103,7 +116,38 @@ def main():
 
             calculate_changes()
 
+            if c == int(config.TRAFFIC_GRAPH_INTERVAL):
+                try:
+                    x = []
+                    i = startTime
+                    for _ in range(0, int(config.TRAFFIC_GRAPH_INTERVAL)):
+                        print("LOL?")
+                        if i >= 24:
+                            i = 1
+                        x.append(i)
+                        i+=1
+                    print(x)
+                    y = trafficGraph
 
+                    # plot
+                    plt.title("Traffic")
+                    plt.xlabel("time (utc)")
+                    plt.ylabel("mb")
+
+                    plt.scatter(x, y)
+
+                    # beautify the x-labels
+                    plt.gcf().autofmt_xdate()
+                    myFmt = mdates.DateFormatter('%H')
+                    plt.gca().xaxis.set_major_formatter(myFmt)
+                    plt.savefig(os.path.expanduser('~')+"\\.earnapp-earning-monitor\\tmp.png")
+                    webhook_templates.trafficGraph(os.path.expanduser('~')+"\\.earnapp-earning-monitor\\tmp.png", info)
+                    c = 0
+                except:
+                    graphics.error("Graph Error!")
+
+            trafficGraph[c+1] = balance_change
+            c += 1 # Number of updates
 
             if offline_device_len() > offline_change:
                 # x Devices just got offline
