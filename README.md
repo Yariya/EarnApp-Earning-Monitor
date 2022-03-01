@@ -4,9 +4,8 @@ Watches your earnings on EarnApp and notifies you when you earned balance or rec
 Containerised by [https://github.com/fazalfarhan01](https://github.com/fazalfarhan01)
 
 ![rsz_pycharm64_iunja2sz3v](https://user-images.githubusercontent.com/65712074/156200038-0a928e35-e03b-4e3a-a8ba-b472cbf4e92f.png)  ![rsz_1discord_b6nzsvxaid](https://user-images.githubusercontent.com/65712074/156201782-4c2d05c2-723f-43ad-b4b8-c9b7a1ef54a9.png)
+![Discord_NSorrCkHs2](https://user-images.githubusercontent.com/65712074/156205217-f5ab3e09-091e-4ca5-8069-463356a87bf0.png)
 
-
-![Balance Update](https://user-images.githubusercontent.com/45929854/142378692-47ff492f-370c-4e02-bfe1-7851959b9166.png)
 
 NOTE: `This is not a trojan! This is completely open source and you can check the source for yourself. Nothing is obfuscated.`
 
