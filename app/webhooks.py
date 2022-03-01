@@ -1,3 +1,6 @@
+import json
+
+import requests
 from discord_webhook import DiscordEmbed, DiscordWebhook
 from pyEarnapp.earnapp import DevicesInfo, Transaction, EarningInfo, UserData
 from functions import AllInformation
@@ -20,10 +23,27 @@ def onlineDevices(info: AllInformation):
             x += 1
     return x
 
+def hiddenDevices(header):
+    r = requests.get("https://earnapp.com/dashboard/api/devices?appid=earnapp_dashboard&version=1.284.850", headers=header)
+    devices = json.loads(r.text)
+    hidden = 0
+    on = 0
+    for device in devices:
+        try:
+            tmp = device["hide_ts"]
+            hidden+=1
+        except:
+          on+=1
+    return hidden
+
+
+
 
 class WebhookTemplate:
     def __init__(self) -> None:
         pass
+
+
 
     def device_gone_offline(self, info: AllInformation, count: int, devices):
         webhook = DiscordWebhook(url=info.webhook_url, rate_limit_retry=True)
@@ -38,7 +58,7 @@ class WebhookTemplate:
         embed.add_embed_field(name="Devices", value=f"\n".join(devices))
 
         embed.set_footer(
-            text=f"You are earning with {info.devices_info.total_devices - info.devices_info.banned_devices - offlineDevices(info)}/{info.devices_info.total_devices} Devices",
+            text=f"You are earning with {info.devices_info.total_devices - info.devices_info.banned_devices - offlineDevices(info)}/{info.devices_info.total_devices - hiddenDevices(info.auth)} Devices",
             icon_url="https://img.icons8.com/color/64/000000/paypal.png")
         webhook.add_embed(embed)
         webhook.execute()
@@ -65,7 +85,7 @@ class WebhookTemplate:
         embed.add_embed_field(name="Total Devices",
                               value=f"{info.devices_info.total_devices}")
         embed.add_embed_field(name="Device Status",
-                              value=f"Online: {onlineDevices(info)}\nOffline: {offlineDevices(info)}")
+                              value=f"Online: {onlineDevices(info)}\nOffline: {offlineDevices(info)}Hidden: {hiddenDevices(info.auth)}")
         embed.add_embed_field(
             name="Devices",
             value=f"{info.devices_info.windows_devices} Windows | {info.devices_info.linux_devices} Linux | {info.devices_info.other_devices} Others",
@@ -116,7 +136,7 @@ class WebhookTemplate:
         embed.add_embed_field(
             name="Multiplier", value=f"{info.earnings_info.multiplier}")
         embed.set_footer(
-            text=f"You are earning with {info.devices_info.total_devices - info.devices_info.banned_devices - offlineDevices(info)}/{info.devices_info.total_devices} Devices",
+            text=f"You are earning with {info.devices_info.total_devices - info.devices_info.banned_devices-offlineDevices(info)}/{info.devices_info.total_devices-hiddenDevices(info.auth)} Devices",
             icon_url="https://img.icons8.com/color/64/000000/paypal.png")
         webhook.add_embed(embed)
         webhook.execute()
