@@ -31,7 +31,6 @@ except (KeyboardInterrupt, SystemExit):
     graphics.warn("Received exit signal!")
     exit()
 
-
 def main():
     graphics.info("Checking for updates.")
     if check_for_updates():
@@ -101,7 +100,7 @@ def main():
                 # calculate changes
                 balance_change = round(info.earnings_info.balance - info.previous_balance, 2)
                 traffic_change = round((info.devices_info.total_bandwidth_usage - info.previous_bandwidth_usage) / (1024 ** 2), 2)
-                print(balance_change, traffic_change)
+
             calculate_changes()
 
 
