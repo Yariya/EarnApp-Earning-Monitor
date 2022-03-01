@@ -51,7 +51,7 @@ class WebhookTemplate:
         embed = DiscordEmbed(
             title="Balance Unchanged!",
             description="",
-            color="E67E22"
+            color="57F287"
         )
         embed.set_thumbnail(
             url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
@@ -77,18 +77,18 @@ class WebhookTemplate:
             url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
         embed.add_embed_field(name="Username", value=f"{info.user_info.name}")
         embed.add_embed_field(
-            name="Multiplier", value=f"{info.earnings_info.multiplier}")
+            name="Multiplier", value=f"{info.earnings_info.multiplier}x")
         embed.add_embed_field(
-            name="Balance", value=f"{info.earnings_info.balance}")
+            name="Balance", value=f"{info.earnings_info.balance}$")
         embed.add_embed_field(name="Lifetime Balance",
-                              value=f"{info.earnings_info.earnings_total}")
+                              value=f"{info.earnings_info.earnings_total}$")
         embed.add_embed_field(name="Total Devices",
                               value=f"{info.devices_info.total_devices}")
         embed.add_embed_field(name="Device Status",
                               value=f"Online: {onlineDevices(info)}\nOffline: {offlineDevices(info)}\nHidden: {hiddenDevices(info.auth)}")
         embed.add_embed_field(
-            name="Devices",
-            value=f"{info.devices_info.windows_devices} Windows | {info.devices_info.linux_devices} Linux | {info.devices_info.other_devices} Others",
+            name="Total Devices",
+            value=f"{info.devices_info.windows_devices} Windows\n{info.devices_info.linux_devices} Linux\n{info.devices_info.other_devices} Others",
             inline=False)
         embed.add_embed_field(name="Bugs?",
                               value=f"[Contact Devs.](https://github.com/Yariya/EarnApp-Earning-Monitor/issues)")
