@@ -165,6 +165,9 @@ class EarnApp:
             raise UnKnownIPCheckError(
                 f"Failed to check IP Address: {ip_address}. Status code: {response.status_code}")
 
+    def returnHeader(self, *args, **kwargs) -> str:
+        return self.headers.header
+
     def redeem_to_paypal(self, paypal_email: str, *args, **kwargs) -> bool:
         current_balance = self.get_earning_info(*args, **kwargs).balance
         if not current_balance > self.minimum_redeem_balance:
