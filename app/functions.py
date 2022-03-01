@@ -15,7 +15,6 @@ class AllInformation:
         self.previous_number_of_transactions = 0
         self.previous_bandwidth_usage = 0
         self.graphics = graphics
-
         self.get_info()
 
     def get_info(self):
@@ -25,6 +24,7 @@ class AllInformation:
             self.devices_info = self.api.get_devices_info()
             self.transaction_info = self.api.get_transaction_info()
             self.device_status = self.api.get_device_statuses()
+            self.auth = self.api.returnHeader()
         except requests.exceptions.ConnectionError:
             self.graphics.error("Connection closed by earnapp server. Retrying.")
             sleep(5)
