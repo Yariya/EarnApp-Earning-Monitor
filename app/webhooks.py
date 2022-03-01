@@ -85,7 +85,7 @@ class WebhookTemplate:
         embed.add_embed_field(name="Total Devices",
                               value=f"{info.devices_info.total_devices}")
         embed.add_embed_field(name="Device Status",
-                              value=f"Online: {onlineDevices(info)}\nOffline: {offlineDevices(info)}Hidden: {hiddenDevices(info.auth)}")
+                              value=f"Online: {onlineDevices(info)}\nOffline: {offlineDevices(info)}\nHidden: {hiddenDevices(info.auth)}")
         embed.add_embed_field(
             name="Devices",
             value=f"{info.devices_info.windows_devices} Windows | {info.devices_info.linux_devices} Linux | {info.devices_info.other_devices} Others",
