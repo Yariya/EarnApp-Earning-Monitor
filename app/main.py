@@ -52,14 +52,6 @@ def main():
     except AuthenticationError:
         graphics.error("Looks like a wrong oauth-refresh-token.")
         exit()
-    try:
-        config.AUTO_REDEEM = float(config.AUTO_REDEEM)
-        if config.AUTO_REDEEM > 0 and config.AUTO_REDEEM < 2.5:
-            raise ValueError()
-
-    except:
-        graphics.error("Value must be positive an integer and at least 2.5!")
-        exit()
 
     display_initial_info(graphics, info)
     webhook_templates.send_first_message(info)
@@ -97,11 +89,10 @@ def main():
     startTime = datetime.now(timezone.utc).strftime("%H")
 
     while 1:
-        # run every hour at *:05 UTC
 
-        if datetime.now(timezone.utc).strftime("%M") == str(f"{config.DELAY+3:02}"):
+        if datetime.now(timezone.utc).strftime("%M") == str(f"{config.DELAY}"):
+
             info.get_info()
-
             # initialise locals
             balance_change = 0
             traffic_change = 0
@@ -121,7 +112,6 @@ def main():
                     x = []
                     i = startTime
                     for _ in range(0, int(config.TRAFFIC_GRAPH_INTERVAL)):
-                        print("LOL?")
                         if i >= 24:
                             i = 1
                         x.append(i)
@@ -174,6 +164,9 @@ def main():
                 graphics.balance_increased(f"+{balance_change}$")
                 graphics.balance_increased(f"Traffic +{traffic_change}MB")
             else:
+                if config.DELAY < 5:
+                    graphics.warn(f"Delay is to low. There might be update issues.")
+
                 graphics.balance_unchanged(
                     f"Your balance has not changed. Current balance: {info.earnings_info.balance}")
                 graphics.balance_unchanged(
