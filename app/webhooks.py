@@ -136,8 +136,12 @@ class WebhookTemplate:
             title=title,
             color=color
         )
-        moneyPercentage = "{0:+.2f}%".format((info.earnings_info.balance/info.previous_balance)*100.0 - 100)
-        trafficPercentage = "{0:+.2f}%".format((info.devices_info.total_bandwidth_usage/info.previous_bandwidth_usage)*100.0 - 100)
+        try:
+            moneyPercentage = "{0:+.2f}%".format((info.earnings_info.balance/info.previous_balance)*100.0 - 100)
+            trafficPercentage = "{0:+.2f}%".format((info.devices_info.total_bandwidth_usage/info.previous_bandwidth_usage)*100.0 - 100)
+        except ZeroDivisionError:
+            moneyPercentage = ':|'
+            trafficPercentage = ':|'
         embed.set_thumbnail(
             url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
         embed.add_embed_field(name="Earned", value=f"+{change}$ ({moneyPercentage})")
