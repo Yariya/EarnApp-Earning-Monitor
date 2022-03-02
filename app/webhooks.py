@@ -106,14 +106,14 @@ class WebhookTemplate:
             inline=True)
         embed.add_embed_field(name="Bugs?",
                               value=f"[Contact Devs.](https://github.com/Yariya/EarnApp-Earning-Monitor/issues)")
-        embed.set_footer(text=f"Version: 2.2.0.1",
+        embed.set_footer(text=f"Version: 2.2.0.0",
                          icon_url="https://img.icons8.com/color/64/000000/paypal.png")
         webhook.add_embed(embed)
         webhook.execute()
 
     # def device_status_change(self, info: AllInformation, ):
 
-    def balance_update(self, info: AllInformation):
+    def balance_update(self, info: AllInformation, delay: int):
         webhook = DiscordWebhook(url=info.webhook_url, rate_limit_retry=True)
         change = round(info.earnings_info.balance - info.previous_balance, 2)
 
@@ -136,12 +136,15 @@ class WebhookTemplate:
             title=title,
             color=color
         )
+
         try:
-            moneyPercentage = "{0:+.2f}%".format((info.earnings_info.balance/info.previous_balance)*100.0 - 100)
-            trafficPercentage = "{0:+.2f}%".format((info.devices_info.total_bandwidth_usage/info.previous_bandwidth_usage)*100.0 - 100)
+            moneyPercentage = "{0:+.2f}%".format((info.earnings_info.balance / info.previous_balance) * 100.0 - 100)
+            trafficPercentage = "{0:+.2f}%".format(
+                (info.devices_info.total_bandwidth_usage / info.previous_bandwidth_usage) * 100.0 - 100)
         except ZeroDivisionError:
             moneyPercentage = ':|'
             trafficPercentage = ':|'
+
         embed.set_thumbnail(
             url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
         embed.add_embed_field(name="Earned", value=f"+{change}$ ({moneyPercentage})")
@@ -155,6 +158,9 @@ class WebhookTemplate:
                               value=f"{info.earnings_info.earnings_total}$")
         embed.add_embed_field(
             name="Multiplier", value=f"{info.earnings_info.multiplier}")
+        if delay < 5:
+            embed.add_embed_field(
+                name="[Warning]", value=f"Your delay might be too low! Try setting an higher delay.")
         embed.set_footer(
             text=f"You are earning with {info.devices_info.total_devices - offlineDevices(info)}/{info.devices_info.total_devices-hiddenDevices(info.auth)} Devices",
             icon_url="https://img.icons8.com/color/64/000000/paypal.png")
