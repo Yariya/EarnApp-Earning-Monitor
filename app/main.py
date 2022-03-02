@@ -151,14 +151,17 @@ def main():
 
             if offline_device_len() > offline_change:
                 # x Devices just got offline
-                off = []
-                for token in info.device_status:
-                    if device_status_change[token] is not info.devices_info[token]:
-                        off.append(token)
-                graphics.warn(f"{offline_device_len() - offline_change} Device(s) just went offline!\n")
-                print("\t (offline)\n".join(off))
-                device_changes()
-                webhook_templates.device_gone_offline(info, offline_device_len() - offline_change, off)
+                try:
+                    off = []
+                    for token in info.device_status:
+                        if device_status_change[token] is not info.devices_info[token]:
+                            off.append(str(token))
+                    graphics.warn(f"{offline_device_len() - offline_change} Device(s) just went offline!\n")
+                    print("\t (offline)\n".join(off))
+                    device_changes()
+                    webhook_templates.device_gone_offline(info, offline_device_len() - offline_change, off)
+                except Exception as e:
+                    graphics.warn("Device Status error!")
 
 
             if balance_change != 0:
