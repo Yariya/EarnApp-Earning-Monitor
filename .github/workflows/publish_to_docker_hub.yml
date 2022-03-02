@@ -33,6 +33,9 @@ jobs:
           -t fazalfarhan01/earnapp-earning-monitor:python-latest \
           -t fazalfarhan01/earnapp-earning-monitor:yariya-latest \
           -t fazalfarhan01/earnapp-earning-monitor:python-2.2.0.1 \
+          --build-arg CACHEBUST=$(date +%s) \
+          --cache-from=type=registry,ref=fazalfarhan01/earnapp-earning-monitor:cache \
+          --cache-to=type=registry,ref=fazalfarhan01/earnapp-earning-monitor:cache \
           --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 .
 
       - name: Update Docker Hub Readme
