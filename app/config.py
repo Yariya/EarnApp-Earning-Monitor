@@ -75,11 +75,11 @@ class Configuration:
                 # If direcotry doesn't exist, create dir
                 if not os.path.exists(self.program_directory):
                     os.mkdir(self.program_directory)
-            config = {
+             config = {
                 "AUTH": self.AUTH,
                 "DELAY": self.DELAY,
                 "WEBHOOK_URL": self.WEBHOOK_URL,
-                "AUTO_REDEEM_VALUE": self.AUTO_REDEEM,
+                "TRAFFIC_GRAPH_INTERVAL": self.TRAFFIC_GRAPH_INTERVAL,
             }
             with io.open(self.config_file_path, "w", encoding="utf-8") as stream:
                 json.dump(config, stream, indent=2)
