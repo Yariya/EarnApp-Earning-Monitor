@@ -36,7 +36,7 @@ jobs:
           --build-arg CACHEBUST=$(date +%s) \
           --cache-from=type=registry,ref=fazalfarhan01/earnapp-earning-monitor:cache \
           --cache-to=type=registry,ref=fazalfarhan01/earnapp-earning-monitor:cache \
-          --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6 .
+          --platform linux/amd64,linux/arm64 .
 
       - name: Update Docker Hub Readme
         uses: peter-evans/dockerhub-description@v2
