@@ -36,8 +36,8 @@ class Configuration:
             "WEBHOOK_URL") is None else os.environ.get("WEBHOOK_URL"))
 
         self.AUTO_REDEEM = 0
-
-        self.TRAFFIC_GRAPH_INTERVAL = (input("Enter Traffic Insights Interval in hours\n\t: ") if os.environ.get(
+        
+        self.TRAFFIC_GRAPH_INTERVAL = ((1 if os.environ.get('container', False) == 'docker' else input("Enter Traffic Insights Interval in hours\n\t: ")) if os.environ.get(
             "TRAFFIC_GRAPH_INTERVAL") is None else os.environ.get("TRAFFIC_GRAPH_INTERVAL"))
 
         self.create_config()
