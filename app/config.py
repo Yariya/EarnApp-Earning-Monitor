@@ -28,14 +28,12 @@ class Configuration:
         self.AUTH = (input("Enter the oauth-refresh-token from EarnApp dashboard\n\t: ")
                      if os.environ.get("AUTH") is None else os.environ.get("AUTH"))
 
-        # time to wait in seconds after the UTC time at which EarnApp Updates
-        self.DELAY = (2 if os.environ.get("DELAY")
+        # 10 Minutes recommended by Vita
+        self.DELAY = (10 if os.environ.get("DELAY")
                       is None else int(os.environ.get("DELAY")))
 
         self.WEBHOOK_URL = (input("Enter the Discord WebHook URL\n\t: ") if os.environ.get(
             "WEBHOOK_URL") is None else os.environ.get("WEBHOOK_URL"))
-
-        self.AUTO_REDEEM = 0
         
         self.TRAFFIC_GRAPH_INTERVAL = ((1 if os.environ.get('container', False) == 'docker' else input("Enter Traffic Insights Interval in hours\n\t: ")) if os.environ.get(
             "TRAFFIC_GRAPH_INTERVAL") is None else os.environ.get("TRAFFIC_GRAPH_INTERVAL"))
@@ -93,16 +91,15 @@ class Configuration:
                 self.AUTH = config_data["AUTH"]
                 self.DELAY = config_data["DELAY"]
                 self.WEBHOOK_URL = config_data["WEBHOOK_URL"]
-                self.AUTO_REDEEM = config_data["AUTO_REDEEM_VALUE"]
                 self.TRAFFIC_GRAPH_INTERVAL = config_data["TRAFFIC_GRAPH_INTERVAL"]
             except:
-                print("Some parameters are missing. Please reconfigure.")
+                print("Looks like your config file is missing paramters... Please reconfigure.")
                 exit(1)
 
     def __fix_delay_bug(self):
         if self.DELAY < 0 or self.DELAY >= 60:
             print('Found invalid delay configuration. Fixing..!')
-            self.DELAY = 2
+            self.DELAY = 10
             self.create_config()
 
 if __name__ == "__main__":
