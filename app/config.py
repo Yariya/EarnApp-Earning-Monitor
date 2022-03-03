@@ -27,17 +27,12 @@ class Configuration:
     def ask_config(self):
         self.AUTH = (input("Enter the oauth-refresh-token from EarnApp dashboard\n\t: ")
                      if os.environ.get("AUTH") is None else os.environ.get("AUTH"))
-
         # 10 Minutes recommended by Vita
         self.DELAY = (10 if os.environ.get("DELAY")
                       is None else int(os.environ.get("DELAY")))
-
         self.WEBHOOK_URL = (input("Enter the Discord WebHook URL\n\t: ") if os.environ.get(
             "WEBHOOK_URL") is None else os.environ.get("WEBHOOK_URL"))
-        
-        self.TRAFFIC_GRAPH_INTERVAL = ((1 if os.environ.get('container', False) == 'docker' else input("Enter Traffic Insights Interval in hours\n\t: ")) if os.environ.get(
-            "TRAFFIC_GRAPH_INTERVAL") is None else os.environ.get("TRAFFIC_GRAPH_INTERVAL"))
-
+        self.TRAFFIC_GRAPH_INTERVAL = 24 if os.environ.get("TRAFFIC_GRAPH_INTERVAL") is None else os.environ.get("TRAFFIC_GRAPH_INTERVAL")
         self.create_config()
 
     def __want_to_reset_config(self):
@@ -75,7 +70,7 @@ class Configuration:
                 # If direcotry doesn't exist, create dir
                 if not os.path.exists(self.program_directory):
                     os.mkdir(self.program_directory)
-             config = {
+            config = {
                 "AUTH": self.AUTH,
                 "DELAY": self.DELAY,
                 "WEBHOOK_URL": self.WEBHOOK_URL,
@@ -99,7 +94,7 @@ class Configuration:
     def __fix_delay_bug(self):
         if self.DELAY < 0 or self.DELAY >= 60:
             print('Found invalid delay configuration. Fixing..!')
-            self.DELAY = 10
+            self.DELAY = 10 # Standart
             self.create_config()
 
 if __name__ == "__main__":

@@ -16,8 +16,10 @@ def check_for_updates():
             latest_version = releases[0]['tag_name']
             if latest_version > f'v{VERSION}':
                 graphics.info("Update Available.")
-                graphics.info("Please download the latest version from below link.")
-                graphics.info(f"https://github.com/Yariya/EarnApp-Earning-Monitor/releases/download/{latest_version}/EarnApp-Earning-Monitor.exe")
+                graphics.info(
+                    "Please download the latest version from below link.")
+                graphics.info(
+                    f"https://github.com/Yariya/EarnApp-Earning-Monitor/releases/download/{latest_version}/EarnApp-Earning-Monitor.exe")
                 return releases[0]
             else:
                 graphics.success("You are on the latest version.")

@@ -106,7 +106,7 @@ class WebhookTemplate:
             inline=True)
         embed.add_embed_field(name="Bugs?",
                               value=f"[Contact Devs.](https://github.com/Yariya/EarnApp-Earning-Monitor/issues)")
-        embed.set_footer(text=f"Version: 2.2.0.0",
+        embed.set_footer(text=f"Version: 2.2.0.1",
                          icon_url="https://img.icons8.com/color/64/000000/paypal.png")
         webhook.add_embed(embed)
         webhook.execute()
