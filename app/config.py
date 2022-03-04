@@ -32,7 +32,9 @@ class Configuration:
                       is None else int(os.environ.get("DELAY")))
         self.WEBHOOK_URL = (input("Enter the Discord WebHook URL\n\t: ") if os.environ.get(
             "WEBHOOK_URL") is None else os.environ.get("WEBHOOK_URL"))
-        self.TRAFFIC_GRAPH_INTERVAL = 24 if os.environ.get("TRAFFIC_GRAPH_INTERVAL") is None else os.environ.get("TRAFFIC_GRAPH_INTERVAL")
+        self.AUTOMATIC_REDEEM = (input("Do you want to use automatic redeeming?\n\t[i] This helps getting your "
+                                             "money faster.\n\t[i] If you don't want to use this feature just put 0 here else put the belance that has to be exceeted here [>2.5]\n\t: ")) if os.environ.get("AUTOMATIC_REDEEM") is None \
+            else os.environ.get("AUTOMATIC_REDEEM")
         self.create_config()
 
     def __want_to_reset_config(self):
@@ -74,7 +76,7 @@ class Configuration:
                 "AUTH": self.AUTH,
                 "DELAY": self.DELAY,
                 "WEBHOOK_URL": self.WEBHOOK_URL,
-                "TRAFFIC_GRAPH_INTERVAL": self.TRAFFIC_GRAPH_INTERVAL,
+                "AUTOMATIC_REDEEM": self.AUTOMATIC_REDEEM,
             }
             with io.open(self.config_file_path, "w", encoding="utf-8") as stream:
                 json.dump(config, stream, indent=2)
@@ -86,7 +88,7 @@ class Configuration:
                 self.AUTH = config_data["AUTH"]
                 self.DELAY = config_data["DELAY"]
                 self.WEBHOOK_URL = config_data["WEBHOOK_URL"]
-                self.TRAFFIC_GRAPH_INTERVAL = config_data["TRAFFIC_GRAPH_INTERVAL"]
+                self.AUTOMATIC_REDEEM = config_data["AUTOMATIC_REDEEM"]
             except:
                 print("Looks like your config file is missing paramters... Please reconfigure.")
                 exit(1)

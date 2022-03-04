@@ -2,6 +2,7 @@ from urllib import parse
 from requests import get
 from urllib.parse import urljoin
 
+
 def report_banned_ip(ipaddresses:list):
     try:
         SERVER = "https://ipban.ffehost.com/"

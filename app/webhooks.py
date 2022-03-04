@@ -6,22 +6,59 @@ from pyEarnapp.earnapp import DevicesInfo, Transaction, EarningInfo, UserData
 from functions import AllInformation
 
 
-def offlineDevices(info: AllInformation):
-    x = 0
-    all = info.device_status
-    for i in all:
-        if not all[i]["online"]:
-            x += 1
-    return x
+# Very inefficient to make this like this but I leave it for now
 
+def offlineDevices(header):
+    try:
+        params = (
+            ('appid', 'earnapp_dashboard'),
+            ('version', '1.284.850'),
+        )
+        dev = requests.get("https://earnapp.com/dashboard/api/devices?appid=earnapp_dashboard&version=1.284.850", headers=header)
+        json_data = {
+            'list': [],
+        }
+        g = json.loads(dev.text)
+        for e in g:
+            json_data['list'].append({
+                "uuid": e["uuid"],
+                "appid": e["appid"]
+            })
+        response = requests.post('https://earnapp.com/dashboard/api/device_statuses', headers=header, params=params, json=json_data)
+        statuses = json.loads(response.text)
+        offlineDevs = 0
+        for i in statuses["statuses"]:
+            if not statuses["statuses"][i]["online"]:
+                offlineDevs+=1
+        return offlineDevs
+    except Exception as e:
+        print(f"Error occurred! You can ignore this if you don't want to use device status function. Try restarting the monitor and if it still occurs contact devs!\n{e}")
 
-def onlineDevices(info: AllInformation):
-    x = 0
-    all = info.device_status
-    for i in all:
-        if all[i]["online"]:
-            x += 1
-    return x
+def onlineDevices(header):
+    try:
+        params = (
+            ('appid', 'earnapp_dashboard'),
+            ('version', '1.284.850'),
+        )
+        dev = requests.get("https://earnapp.com/dashboard/api/devices?appid=earnapp_dashboard&version=1.284.850", headers=header)
+        json_data = {
+            'list': [],
+        }
+        g = json.loads(dev.text)
+        for e in g:
+            json_data['list'].append({
+                "uuid": e["uuid"],
+                "appid": e["appid"]
+            })
+        response = requests.post('https://earnapp.com/dashboard/api/device_statuses', headers=header, params=params, json=json_data)
+        statuses = json.loads(response.text)
+        offlineDevs = 0
+        for i in statuses["statuses"]:
+            if statuses["statuses"][i]["online"]:
+                offlineDevs+=1
+        return offlineDevs
+    except Exception as e:
+        print(f"Error occurred! You can ignore this if you don't want to use device status function. Try restarting the monitor and if it still occurs contact devs!\n{e}")
 
 def hiddenDevices(header):
     r = requests.get("https://earnapp.com/dashboard/api/devices?appid=earnapp_dashboard&version=1.284.850", headers=header)
@@ -37,7 +74,8 @@ def hiddenDevices(header):
     return hidden
 
 
-
+lastUpdateBalanceChange = 0
+lastUpdateTrafficChange = 0
 
 class WebhookTemplate:
     def __init__(self) -> None:
@@ -63,7 +101,7 @@ class WebhookTemplate:
 
         embed = DiscordEmbed(
             title="[WARNING] DEVICES OFFLINE",
-            description=f"{count} Device(s) just went offline! {info.devices_info.total_devices-info.devices_info.banned_devices-offlineDevices(info)} Devices remain...",
+            description=f"{count} Device(s) just went offline! {info.devices_info.total_devices-info.devices_info.banned_devices-offlineDevices(info.auth)} Devices remain...",
             color="ff0000"
         )
         embed.set_thumbnail(
@@ -71,7 +109,7 @@ class WebhookTemplate:
         embed.add_embed_field(name="Device List", value=f"\n".join(devices))
 
         embed.set_footer(
-            text=f"{info.devices_info.total_devices - offlineDevices(info)}/{info.devices_info.total_devices - hiddenDevices(info.auth)} Devices",
+            text=f"{info.devices_info.total_devices - offlineDevices(info.auth)}/{info.devices_info.total_devices - hiddenDevices(info.auth)} Devices",
             icon_url="https://img.icons8.com/color/64/000000/paypal.png")
         webhook.add_embed(embed)
         webhook.execute()
@@ -99,7 +137,7 @@ class WebhookTemplate:
         embed.add_embed_field(name="Total Devices",
                               value=f"{info.devices_info.total_devices}")
         embed.add_embed_field(name="Device Status",
-                              value=f"Online: {onlineDevices(info)}\nOffline: {offlineDevices(info)}\nHidden: {hiddenDevices(info.auth)}")
+                              value=f"Online: {onlineDevices(info.auth)}\nOffline: {offlineDevices(info.auth)}\nHidden: {hiddenDevices(info.auth)}")
         embed.add_embed_field(
             name="Total Devices",
             value=f"{info.devices_info.windows_devices} Windows\n{info.devices_info.linux_devices} Linux\n{info.devices_info.other_devices} Others",
@@ -114,6 +152,7 @@ class WebhookTemplate:
     # def device_status_change(self, info: AllInformation, ):
 
     def balance_update(self, info: AllInformation, delay: int):
+        global lastUpdateBalanceChange, lastUpdateTrafficChange
         webhook = DiscordWebhook(url=info.webhook_url, rate_limit_retry=True)
         change = round(info.earnings_info.balance - info.previous_balance, 2)
 
@@ -138,12 +177,15 @@ class WebhookTemplate:
         )
 
         try:
-            moneyPercentage = "{0:+.2f}%".format((info.earnings_info.balance / info.previous_balance) * 100.0 - 100)
+            moneyPercentage = "{0:+.2f}%".format((info.earnings_info.balance / lastUpdateBalanceChange) * 100.0 - 100)
             trafficPercentage = "{0:+.2f}%".format(
-                (info.devices_info.total_bandwidth_usage / info.previous_bandwidth_usage) * 100.0 - 100)
+                (info.devices_info.total_bandwidth_usage / lastUpdateTrafficChange) * 100.0 - 100)
         except ZeroDivisionError:
             moneyPercentage = ':|'
             trafficPercentage = ':|'
+
+        lastUpdateBalanceChange = change
+        lastUpdateTrafficChange = traffic_change
 
         embed.set_thumbnail(
             url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
@@ -162,7 +204,7 @@ class WebhookTemplate:
             embed.add_embed_field(
                 name="[Warning]", value=f"Your delay might be too low! Try setting an higher delay.")
         embed.set_footer(
-            text=f"You are earning with {info.devices_info.total_devices - offlineDevices(info)}/{info.devices_info.total_devices-hiddenDevices(info.auth)} Devices",
+            text=f"You are earning with {info.devices_info.total_devices - offlineDevices(info.auth)}/{info.devices_info.total_devices-hiddenDevices(info.auth)} Devices",
             icon_url="https://img.icons8.com/color/64/000000/paypal.png")
         webhook.add_embed(embed)
         webhook.execute()

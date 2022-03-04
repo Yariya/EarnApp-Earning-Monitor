@@ -15,7 +15,8 @@ import matplotlib.pyplot as plt
 
 # initiallise colorama
 init(autoreset=True)
-
+automatic_redeem_local = False
+redeem_email = ""
 try:
     # Initiallise graphics
     graphics = Graphics()
@@ -25,6 +26,16 @@ try:
     config = Configuration()
     graphics.success("Configurations Loaded.")
 
+    try:
+        config.AUTOMATIC_REDEEM = abs(float(config.AUTOMATIC_REDEEM))
+        if int(config.AUTOMATIC_REDEEM) != 0 or int(config.AUTOMATIC_REDEEM) > 2.5:
+            automatic_redeem_local = True
+            redeem_email = input("PayPal Email\t:")
+            if redeem_email == "" or "@" not in redeem_email:
+                raise Exception
+    except Exception as e:
+        graphics.warn("Check automatic redeem value. Reconfigure or edit config from ~user/.earnapp-earnings-monitor")
+        exit()
     # initiallise earnapp
     api = EarnApp(config.AUTH)
     graphics.success("Earnapp Earning Monitor Started.")
@@ -36,7 +47,19 @@ except (KeyboardInterrupt, SystemExit):
 
 
 
-
+def payoutBalance(header):
+    try:
+        params = (
+            ('appid', 'earnapp_dashboard'),
+            ('version', '1.285.887'),
+        )
+        json_data = {
+            'to': redeem_email,
+            'payment_method': 'paypal.com',
+        }
+        requests.post('https://earnapp.com/dashboard/api/redeem', headers=header, params=params, json=json_data)
+    except Exception as e:
+        pass # Handling later
 
 def main():
     graphics.info("Checking for updates.")
@@ -104,9 +127,13 @@ def main():
                 # calculate changes
                 balance_change = round(info.earnings_info.balance - info.previous_balance, 2)
                 traffic_change = round((info.devices_info.total_bandwidth_usage - info.previous_bandwidth_usage) / (1024 ** 2), 2)
-
             calculate_changes()
-
+            if automatic_redeem_local:
+                print("LOCAL REDEEM IS ENABLED!")
+                if info.earnings_info.balance > config.AUTOMATIC_REDEEM:
+                    payoutBalance(info.auth)
+            # Soon
+            '''
             if c == int(config.TRAFFIC_GRAPH_INTERVAL):
                 try:
                     x = []
@@ -138,6 +165,7 @@ def main():
 
             trafficGraph[c+1] = balance_change
             c += 1 # Number of updates
+            '''
 
             if offline_device_len() > offline_change:
                 # x Devices just got offline
