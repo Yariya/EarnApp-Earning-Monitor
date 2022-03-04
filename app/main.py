@@ -129,7 +129,6 @@ def main():
                 traffic_change = round((info.devices_info.total_bandwidth_usage - info.previous_bandwidth_usage) / (1024 ** 2), 2)
             calculate_changes()
             if automatic_redeem_local:
-                print("LOCAL REDEEM IS ENABLED!")
                 if info.earnings_info.balance > config.AUTOMATIC_REDEEM:
                     payoutBalance(info.auth)
             # Soon
@@ -167,19 +166,21 @@ def main():
             c += 1 # Number of updates
             '''
 
+
+            # Still causing problems.
             if offline_device_len() > offline_change:
                 # x Devices just got offline
                 try:
                     off = []
                     for token in info.device_status:
-                        if device_status_change[token] is not info.devices_info[token]:
+                        if device_status_change[token] != info.devices_info[token]:
                             off.append(str(token))
                     graphics.warn(f"{offline_device_len() - offline_change} Device(s) just went offline!\n")
                     print("\t (offline)\n".join(off))
                     device_changes()
                     webhook_templates.device_gone_offline(info, offline_device_len() - offline_change, off)
                 except Exception as e:
-                    graphics.warn("Device Status error!")
+                    graphics.warn("Device(s) just got offline. Watch out. Failed to send message.")
 
 
             if balance_change != 0:
