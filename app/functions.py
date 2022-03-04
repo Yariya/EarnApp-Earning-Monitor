@@ -32,7 +32,6 @@ class AllInformation:
 
 
 def display_initial_info(graphics, info: AllInformation):
-    inf
     graphics.info(f"Username: {info.user_info.name}")
     graphics.info(f"Multiplier: {info.earnings_info.multiplier}")
     graphics.info(f"Balance: {info.earnings_info.balance}")
