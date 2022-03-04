@@ -177,9 +177,9 @@ class WebhookTemplate:
         )
 
         try:
-            moneyPercentage = "{0:+.2f}%".format((info.earnings_info.balance / lastUpdateBalanceChange) * 100.0 - 100)
+            moneyPercentage = "{0:+.2f}%".format((change / lastUpdateBalanceChange) * 100.0 - 100)
             trafficPercentage = "{0:+.2f}%".format(
-                (info.devices_info.total_bandwidth_usage / lastUpdateTrafficChange) * 100.0 - 100)
+                (traffic_change / lastUpdateTrafficChange) * 100.0 - 100)
         except ZeroDivisionError:
             moneyPercentage = ':|'
             trafficPercentage = ':|'

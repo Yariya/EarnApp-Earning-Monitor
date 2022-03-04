@@ -7,7 +7,6 @@ from webhooks import WebhookTemplate
 from time import sleep
 from datetime import datetime, timezone
 from functions import *
-import matplotlib.dates as mdates
 from pyEarnapp import EarnApp
 from pyEarnapp.errors import *
 from updates import check_for_updates
@@ -30,7 +29,7 @@ try:
         config.AUTOMATIC_REDEEM = abs(float(config.AUTOMATIC_REDEEM))
         if int(config.AUTOMATIC_REDEEM) != 0 or int(config.AUTOMATIC_REDEEM) > 2.5:
             automatic_redeem_local = True
-            redeem_email = input("PayPal Email\t:")
+            redeem_email = input("PayPal Email: ")
             if redeem_email == "" or "@" not in redeem_email:
                 raise Exception
     except Exception as e:
