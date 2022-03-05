@@ -25,6 +25,7 @@ services:
       DELAY: 2 # MINUTES TO WAIT AFTER UTC *:00 TO CHECK FOR UPDATE | DEFAULT 2 MINUTES
       AUTH: YOUR_AUTH_COOKIE_HERE
       WEBHOOK_URL: YOUR_WEBHOOK_URL_HERE
+      AUTOMATIC_REDEEM: 0 # 0 to turn off auto redeem, 1 to turn it on.
 ```
 ### Non Compose
 ```BASH
@@ -32,12 +33,13 @@ docker run -d --restart always --name earnapp-monitor \
 -e AUTH=YOUR_AUTH_COOKIE_HERE \
 -e WEBHOOK_URL=YOUR_WEBHOOK_URL_HERE \
 -e DELAY=2 \
+-e AUTOMATIC_REDEEM=0
 fazalfarhan01/earnapp-earning-monitor:python-latest
 ```
   - Example
   ```BASH
 docker run -d --restart always --name earnapp-monitor 
--e AUTH=1%2%adfbg-afvbfab-asfdbadbf -e WEBHOOK_URL=https://discord.com/api/webhooks/akjsdvasdvjafvb -e DELAY=2 fazalfarhan01/earnapp-earning-monitor:python-latest
+-e AUTH=1%2%adfbg-afvbfab-asfdbadbf -e WEBHOOK_URL=https://discord.com/api/webhooks/akjsdvasdvjafvb -e DELAY=2 -e AUTOMATIC_REDEEM=0 fazalfarhan01/earnapp-earning-monitor:python-latest
 ```
 
 ## Windows
