@@ -3,6 +3,8 @@ Watches your earnings on EarnApp and notifies you when you earned balance or rec
 
 Containerised by [https://github.com/fazalfarhan01](https://github.com/fazalfarhan01)
 
+For features check out [releases](https://github.com/Yariya/EarnApp-Earning-Monitor/releases) :)
+
 ![rsz_pycharm64_iunja2sz3v](https://user-images.githubusercontent.com/65712074/156200038-0a928e35-e03b-4e3a-a8ba-b472cbf4e92f.png)  ![rsz_1discord_b6nzsvxaid](https://user-images.githubusercontent.com/65712074/156201782-4c2d05c2-723f-43ad-b4b8-c9b7a1ef54a9.png)
 ![Discord_NSorrCkHs2](https://user-images.githubusercontent.com/65712074/156205217-f5ab3e09-091e-4ca5-8069-463356a87bf0.png)
 
@@ -99,4 +101,4 @@ Check out this video.
 - [EarnApp](https://earnapp.com/)
 - Thanks to [fazalfarhan01](https://github.com/fazalfarhan01) for completely reworking this project :)
 ## Version
-- 2.2.0.1
+- 2.2.0.3
