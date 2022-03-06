@@ -190,7 +190,7 @@ def main():
 
 
             # Still causing problems.
-            if offline_device_len() > offline_change:
+            if offline_device_len(info.auth) > offline_change:
                 # x Devices just got offline
                 try:
                     off = []
