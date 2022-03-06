@@ -33,6 +33,7 @@ def offlineDevices(header):
         return offlineDevs
     except Exception as e:
         print(f"Error occurred! You can ignore this if you don't want to use device status function. Try restarting the monitor and if it still occurs contact devs!\n{e}")
+        return 0
 
 def onlineDevices(header):
     try:
@@ -59,6 +60,7 @@ def onlineDevices(header):
         return offlineDevs
     except Exception as e:
         print(f"Error occurred! You can ignore this if you don't want to use device status function. Try restarting the monitor and if it still occurs contact devs!\n{e}")
+        return 0
 
 def hiddenDevices(header):
     r = requests.get("https://earnapp.com/dashboard/api/devices?appid=earnapp_dashboard&version=1.284.850", headers=header)
@@ -91,16 +93,14 @@ class WebhookTemplate:
         with open(graphPath, "rb") as f:
             webhook.add_file(file=f.read(), filename="graph.png")
         embed.set_image(url="attachment://graph.png")
-
-        embed.set_footer(text="Build by Yariya")
+        embed.set_footer(text="")
         webhook.add_embed(embed)
         webhook.execute()
 
     def device_gone_offline(self, info: AllInformation, count: int, devices):
         webhook = DiscordWebhook(url=info.webhook_url, rate_limit_retry=True)
-
         embed = DiscordEmbed(
-            title="[WARNING] DEVICES OFFLINE",
+            title=f"[WARNING] [{count}] DEVICE(S) OFFLINE",
             description=f"{count} Device(s) just went offline! {info.devices_info.total_devices-info.devices_info.banned_devices-offlineDevices(info.auth)} Devices remain...",
             color="ff0000"
         )
@@ -110,7 +110,7 @@ class WebhookTemplate:
 
         embed.set_footer(
             text=f"{info.devices_info.total_devices - offlineDevices(info.auth)}/{info.devices_info.total_devices - hiddenDevices(info.auth)} Devices",
-            icon_url="https://img.icons8.com/color/64/000000/paypal.png")
+            icon_url="https://img.icons8.com/external-becris-lineal-color-becris/64/000000/external-iot-fintech-becris-lineal-color-becris.png")
         webhook.add_embed(embed)
         webhook.execute()
 

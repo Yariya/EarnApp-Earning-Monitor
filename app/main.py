@@ -90,25 +90,48 @@ def main():
     offline_change = 0
     device_status_change = []
 
-    def offline_device_len() -> int:
-        x = 0
-        all = info.device_status
-        for i in all:
-            if not all[i]["online"]:
-                x += 1
-        return x
+    # Too many duplicates of offline/online functions cleaning up soon
+    def offline_device_len(header):
+        try:
+            params = (
+                ('appid', 'earnapp_dashboard'),
+                ('version', '1.284.850'),
+            )
+            dev = requests.get("https://earnapp.com/dashboard/api/devices?appid=earnapp_dashboard&version=1.284.850",
+                               headers=header)
+            json_data = {
+                'list': [],
+            }
+            g = json.loads(dev.text)
+            for e in g:
+                json_data['list'].append({
+                    "uuid": e["uuid"],
+                    "appid": e["appid"]
+                })
+            response = requests.post('https://earnapp.com/dashboard/api/device_statuses', headers=header, params=params,
+                                     json=json_data)
+            statuses = json.loads(response.text)
+            offlineDevs = 0
+            for i in statuses["statuses"]:
+                if not statuses["statuses"][i]["online"]:
+                    offlineDevs += 1
+            return offlineDevs
+        except Exception as e:
+            print(
+                f"Error occurred! You can ignore this if you don't want to use device status function. Try restarting the monitor and if it still occurs contact devs!\n{e}")
+            return 0
 
     def device_changes():
         nonlocal offline_change
         global device_status_change
-        offline_change = offline_device_len()
+        offline_change = offline_device_len(info.auth)
         device_status_change = info.device_status
 
     device_changes()
 
-    trafficGraph = [0 for x in range(24)]
-    c = 0
-    startTime = datetime.now(timezone.utc).strftime("%H")
+     #trafficGraph = [0 for x in range(24)]
+    #c = 0
+    #startTime = datetime.now(timezone.utc).strftime("%H")
 
     while 1:
 
