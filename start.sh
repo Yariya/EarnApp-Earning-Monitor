@@ -1,3 +1,3 @@
 #!/bin/bash
 python3 app/main.py
-echo "You can safely exit this"
+echo "Vous pouvez quitter en toute sécurité maintenant "
