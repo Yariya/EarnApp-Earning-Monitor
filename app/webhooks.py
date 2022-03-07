@@ -32,7 +32,7 @@ def offlineDevices(header):
                 offlineDevs+=1
         return offlineDevs
     except Exception as e:
-        print(f"Error occurred! You can ignore this if you don't want to use device status function. Try restarting the monitor and if it still occurs contact devs!\n{e}")
+        print(f"Erreur est survenue! Vous pouvez ignorer cela si vous ne souhaitez pas utiliser la fonction d'état de l'appareil. Essayez de redémarrer le moniteur et si cela se produit toujours, contactez les développeurs !\n{e}")
         return 0
 
 def onlineDevices(header):
@@ -59,7 +59,7 @@ def onlineDevices(header):
                 offlineDevs+=1
         return offlineDevs
     except Exception as e:
-        print(f"Error occurred! You can ignore this if you don't want to use device status function. Try restarting the monitor and if it still occurs contact devs!\n{e}")
+        print(f"Erreur est survenue! Vous pouvez ignorer cela si vous ne souhaitez pas utiliser la fonction d'état de l'appareil. Essayez de redémarrer le moniteur et si cela se produit toujours, contactez les développeurs !\n{e}")
         return 0
 
 def hiddenDevices(header):
@@ -87,7 +87,7 @@ class WebhookTemplate:
         webhook = DiscordWebhook(url=info.webhook_url, rate_limit_retry=True)
 
         embed = DiscordEmbed(
-            title="New Traffic insights available!",
+            title="Nouvelles informations sur le trafic disponibles !",
             color="00ff00"
         )
         with open(graphPath, "rb") as f:
@@ -100,8 +100,8 @@ class WebhookTemplate:
     def device_gone_offline(self, info: AllInformation, count: int, devices):
         webhook = DiscordWebhook(url=info.webhook_url, rate_limit_retry=True)
         embed = DiscordEmbed(
-            title=f"[WARNING] [{count}] DEVICE(S) OFFLINE",
-            description=f"{count} Device(s) just went offline! {info.devices_info.total_devices-info.devices_info.banned_devices-offlineDevices(info.auth)} Devices remain...",
+            title=f"[WARNING] [{count}] DISPOSITIF(S) HORS-LIGNE ",
+            description=f"{count} Le ou les appareils viennent de se déconnecter !  {info.devices_info.total_devices-info.devices_info.banned_devices-offlineDevices(info.auth)} appareil(s) restent ...",
             color="ff0000"
         )
         embed.set_thumbnail(
@@ -109,7 +109,7 @@ class WebhookTemplate:
         embed.add_embed_field(name="Device List", value=f"\n".join(devices))
 
         embed.set_footer(
-            text=f"{info.devices_info.total_devices - offlineDevices(info.auth)}/{info.devices_info.total_devices - hiddenDevices(info.auth)} Devices",
+            text=f"{info.devices_info.total_devices - offlineDevices(info.auth)}/{info.devices_info.total_devices - hiddenDevices(info.auth)} Appareil(s)",
             icon_url="https://img.icons8.com/external-becris-lineal-color-becris/64/000000/external-iot-fintech-becris-lineal-color-becris.png")
         webhook.add_embed(embed)
         webhook.execute()
@@ -119,28 +119,28 @@ class WebhookTemplate:
         webhook = DiscordWebhook(url=info.webhook_url, rate_limit_retry=True)
 
         embed = DiscordEmbed(
-            title="Bot Started 🤖",
-            description="Earnapp Earning Monitor has been started.",
+            title="Bot démarré 🤖",
+            description="Earnapp Earning Monitor a été lancé.",
             color="FFFFFF"
         )
 
         embed.set_thumbnail(
             url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
-        embed.add_embed_field(name="Username", value=f"{info.user_info.name}")
+        embed.add_embed_field(name="Pseudo", value=f"{info.user_info.name}")
         embed.add_embed_field(
-            name="Multiplier", value=f"{info.earnings_info.multiplier}x")
+            name="Multiplicateur ", value=f"{info.earnings_info.multiplier}x")
         embed.add_embed_field(
-            name="Balance", value=f"{info.earnings_info.balance}$")
-        embed.add_embed_field(name="Lifetime Balance",
+            name="Solde", value=f"{info.earnings_info.balance}$")
+        embed.add_embed_field(name="Solde à vie",
                               value=f"{info.earnings_info.earnings_total}$")
-        embed.add_embed_field(name="Lifetime Referral", value=f"{info.earnings_info.bonuses}$")
-        embed.add_embed_field(name="Total Devices",
+        embed.add_embed_field(name="Solde du Référencement", value=f"{info.earnings_info.bonuses}$")
+        embed.add_embed_field(name="Nombre total d'appareils",
                               value=f"{info.devices_info.total_devices}")
-        embed.add_embed_field(name="Device Status",
-                              value=f"Online: {onlineDevices(info.auth)}\nOffline: {offlineDevices(info.auth)}\nHidden: {hiddenDevices(info.auth)}")
+        embed.add_embed_field(name="Statut du périphérique",
+                              value=f"En ligne: {onlineDevices(info.auth)}\nHors ligne: {offlineDevices(info.auth)}\nCaché: {hiddenDevices(info.auth)}")
         embed.add_embed_field(
-            name="Total Devices",
-            value=f"{info.devices_info.windows_devices} Windows\n{info.devices_info.linux_devices} Linux\n{info.devices_info.other_devices} Others",
+            name="Nombre total d'appareils",
+            value=f"{info.devices_info.windows_devices} Windows\n{info.devices_info.linux_devices} Linux\n{info.devices_info.other_devices} Autres",
             inline=True)
         embed.add_embed_field(name="Bugs?",
                               value=f"[Contact Devs.](https://github.com/Yariya/EarnApp-Earning-Monitor/issues)")
@@ -157,17 +157,17 @@ class WebhookTemplate:
         change = round(info.earnings_info.balance - info.previous_balance, 2)
 
         if change > 0:
-            title = f"Balance Increased [+{change}]"
+            title = f"Soldes augmenté [+{change}]"
             color = "03F8C4"
         else:
-            title = "Balance Unchanged!"
+            title = "Solde inchangé !"
             color = "E67E22"
         traffic_change = round(
             (info.devices_info.total_bandwidth_usage -
              info.previous_bandwidth_usage) / (1024 ** 2), 2)
 
         if change == 0 or traffic_change == 0:
-            value = "No change in traffic."
+            value = "Aucun changement dans le trafic ."
         else:
             value = f'{round(change / (traffic_change / 1024), 2)} $/GB'
 
@@ -189,22 +189,22 @@ class WebhookTemplate:
 
         embed.set_thumbnail(
             url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
-        embed.add_embed_field(name="Earned", value=f"+{change}$ ({moneyPercentage})")
-        embed.add_embed_field(name="Traffic", value=f"+{traffic_change} MB ({trafficPercentage})")
-        embed.add_embed_field(name="Avg. Price/GB", value=value)
-        embed.add_embed_field(name="Balance",
+        embed.add_embed_field(name="Gagné ", value=f"+{change}$ ({moneyPercentage})")
+        embed.add_embed_field(name="Trafic", value=f"+{traffic_change} MB ({trafficPercentage})")
+        embed.add_embed_field(name="Prix Moyen/GB", value=value)
+        embed.add_embed_field(name="Solde",
                               value=f"{info.earnings_info.balance}$")
-        embed.add_embed_field(name="Referral Balance",
+        embed.add_embed_field(name="Solde de parrainage ",
                               value=f"{info.earnings_info.bonuses}$")
-        embed.add_embed_field(name="Lifetime Balance",
+        embed.add_embed_field(name="Solde à vie",
                               value=f"{info.earnings_info.earnings_total}$")
         embed.add_embed_field(
-            name="Multiplier", value=f"{info.earnings_info.multiplier}")
+            name="Multiplicateur", value=f"{info.earnings_info.multiplier}")
         if delay < 5:
             embed.add_embed_field(
-                name="[Warning]", value=f"Your delay might be too low! Try setting an higher delay.")
+                name="[Warning]", value=f"Votre retard est peut-être trop faible ! Essayez de définir un délai plus élevé.")
         embed.set_footer(
-            text=f"You are earning with {info.devices_info.total_devices - offlineDevices(info.auth)}/{info.devices_info.total_devices-hiddenDevices(info.auth)} Devices",
+            text=f"Vous gagnez avec {info.devices_info.total_devices - offlineDevices(info.auth)}/{info.devices_info.total_devices-hiddenDevices(info.auth)} appareils",
             icon_url="https://img.icons8.com/color/64/000000/paypal.png")
         webhook.add_embed(embed)
         webhook.execute()
@@ -213,21 +213,21 @@ class WebhookTemplate:
         webhook = DiscordWebhook(url=info.webhook_url, rate_limit_retry=True)
         transaction = info.transaction_info.transactions[0]
         embed = DiscordEmbed(
-            title="New Redeem Request",
-            description="New redeem request has been submitted",
+            title="Nouvelle demande de payement ",
+            description="Une nouvelle demande de payement a été soumise ",
             color="07FF70"
         )
         embed.set_thumbnail(
             url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
         embed.add_embed_field(name="UUID", value=f"{transaction.uuid}")
-        embed.add_embed_field(name="Amount", value=f"+{transaction.amount}$")
+        embed.add_embed_field(name="PPrix", value=f"+{transaction.amount}$")
         embed.add_embed_field(
-            name="Method", value=f"{transaction.payment_method}")
-        embed.add_embed_field(name="Status", value=f"{transaction.status}")
+            name="Via", value=f"{transaction.payment_method}")
+        embed.add_embed_field(name="Statut", value=f"{transaction.status}")
         embed.add_embed_field(name="Email", value=f"{transaction.email}")
         embed.add_embed_field(
-            name="Redeem Date", value=f"{transaction.redeem_date.strftime('%Y-%m-%d')}")
-        footer_text = f"Payment {transaction.status} as on {transaction.payment_date.strftime('%Y-%m-%d')} via {transaction.payment_method}"
+            name="Date", value=f"{transaction.redeem_date.strftime('%Y-%m-%d')}")
+        footer_text = f"Paiement {transaction.status} le {transaction.payment_date.strftime('%Y-%m-%d')} via {transaction.payment_method}"
 
         embed.set_footer(
             text=footer_text, icon_url="https://img.icons8.com/color/64/000000/paypal.png")
@@ -239,7 +239,7 @@ class WebhookTemplate:
     def update_available(self, webhook_url, params):
         webhook = DiscordWebhook(url=webhook_url, rate_limit_retry=True)
         embed = DiscordEmbed(
-            title="New Version available!",
+            title="Nouvelle version disponible!",
             color="0002ff"
         )
         embed.set_thumbnail(
@@ -247,7 +247,7 @@ class WebhookTemplate:
         embed.add_embed_field(name="Changelog", value=f"```{params['body']}```", inline=True)
         embed.add_embed_field(
             name="Update", value=f"[Download](https://github.com/Yariya/EarnApp-Earning-Monitor/releases/{params['tag_name']}/)", inline=False)
-        footer_text = f"Update to the latest version now."
+        footer_text = f"Mettez à jour vers la dernière version maintenant."
 
         embed.set_footer(
             text=footer_text, icon_url="https://img.icons8.com/fluency/256/000000/update-left-rotation.png")
