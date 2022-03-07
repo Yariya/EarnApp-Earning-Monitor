@@ -43,11 +43,11 @@ class Configuration:
             return
         got_response = False
         while(not got_response):
-            response = input("Vous souhaitez utiliser la configuration existante? (yes/no): ")
-            if response.lower() == "yes":
+            response = input("Vous souhaitez utiliser la configuration existante? (oui/non): ")
+            if response.lower() == "oui":
                 got_response = True
                 self.__reuse_config = True
-            elif response.lower() == "no":
+            elif response.lower() == "non":
                 got_response = True
                 self.__reuse_config = False
             else:
