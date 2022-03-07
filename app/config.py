@@ -25,15 +25,15 @@ class Configuration:
         self.__fix_delay_bug()
 
     def ask_config(self):
-        self.AUTH = (input("Enter the oauth-refresh-token from EarnApp dashboard\n\t: ")
+        self.AUTH = (input("Entrez le jeton oauth-refresh-token du tableau de bord EarnApp\n\t: ")
                      if os.environ.get("AUTH") is None else os.environ.get("AUTH"))
         # 10 Minutes recommended by Vita
         self.DELAY = (10 if os.environ.get("DELAY")
                       is None else int(os.environ.get("DELAY")))
-        self.WEBHOOK_URL = (input("Enter the Discord WebHook URL\n\t: ") if os.environ.get(
+        self.WEBHOOK_URL = (input("Entrez l'URL Discord WebHook \n\t: ") if os.environ.get(
             "WEBHOOK_URL") is None else os.environ.get("WEBHOOK_URL"))
-        self.AUTOMATIC_REDEEM = (input("Do you want to use automatic redeeming?\n\t[i] This helps getting your "
-                                             "money faster.\n\t[i] If you don't want to use this feature just put 0 here else put the belance that has to be exceeted here [>2.5]\n\t: ")) if os.environ.get("AUTOMATIC_REDEEM") is None \
+        self.AUTOMATIC_REDEEM = (input("Voulez-vous utiliser le payement automatique ? \n\t[i] Cela aide à obtenir votre  "
+                                             "argents plus rapidement.\n\t[i] Si vous ne voulez pas utiliser cette fonctionnalité, mettez simplement 0 ici, sinon mettez la balance qui doit être [>2.5]\n\t: ")) if os.environ.get("AUTOMATIC_REDEEM") is None \
             else os.environ.get("AUTOMATIC_REDEEM")
         self.create_config()
 
@@ -43,7 +43,7 @@ class Configuration:
             return
         got_response = False
         while(not got_response):
-            response = input("Want to use existing configuration? (yes/no): ")
+            response = input("Vous souhaitez utiliser la configuration existante? (yes/no): ")
             if response.lower() == "yes":
                 got_response = True
                 self.__reuse_config = True
@@ -51,7 +51,7 @@ class Configuration:
                 got_response = True
                 self.__reuse_config = False
             else:
-                print("Didn't quiet understand, try again!")
+                print("Je n'ai pas compris, réessayez!")
 
     def check_for_existing_config(self):
         self.home_directory = os.path.expanduser("~")
@@ -65,7 +65,7 @@ class Configuration:
 
     def create_config(self):
         if os.environ.get('container', False) == 'docker':
-            print("Detected container runtime.")
+            print("Temps d'exécution du conteneur détecté.")
         else:
             # If config file doesn't exist
             if not self.config_file_exists:
@@ -90,12 +90,12 @@ class Configuration:
                 self.WEBHOOK_URL = config_data["WEBHOOK_URL"]
                 self.AUTOMATIC_REDEEM = config_data["AUTOMATIC_REDEEM"]
             except:
-                print("Looks like your config file is missing paramters... Please reconfigure.")
+                print("Il semble qu'il manque des paramètres à votre fichier de configuration... Veuillez reconfigurer.")
                 exit(1)
 
     def __fix_delay_bug(self):
         if self.DELAY < 0 or self.DELAY >= 60:
-            print('Found invalid delay configuration. Fixing..!')
+            print('Configuration de délai non valide détectée. Fix..!')
             self.DELAY = 10 # Standart
             self.create_config()
 
