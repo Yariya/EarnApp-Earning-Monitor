@@ -24,7 +24,6 @@ services:
     image: fazalfarhan01/earnapp-earning-monitor
     restart: always
     environment:
-      DELAY: 5 # MINUTES TO WAIT AFTER UTC *:00 TO CHECK FOR UPDATE | DEFAULT 5-10 MINUTES
       AUTH: YOUR_AUTH_COOKIE_HERE
       WEBHOOK_URL: YOUR_WEBHOOK_URL_HERE
       AUTOMATIC_REDEEM: 0 # 0 to turn off auto redeem, 1 to turn it on.
@@ -34,7 +33,6 @@ services:
 docker run -d --restart always --name earnapp-monitor \
 -e AUTH=YOUR_AUTH_COOKIE_HERE \
 -e WEBHOOK_URL=YOUR_WEBHOOK_URL_HERE \
--e DELAY=5 \
 -e AUTOMATIC_REDEEM=0
 fazalfarhan01/earnapp-earning-monitor:python-latest
 ```
