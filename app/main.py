@@ -83,9 +83,6 @@ def main():
     info.previous_number_of_transactions = info.transaction_info.total_transactions
     info.previous_bandwidth_usage = info.devices_info.total_bandwidth_usage
 
-    next_update_in(config.DELAY, graphics)
-
-
 
     # Offline devices
     offline_change = 0
@@ -133,7 +130,6 @@ def main():
      #trafficGraph = [0 for x in range(24)]
     #c = 0
     #startTime = datetime.now(timezone.utc).strftime("%H")
-    nextUpdateTime = datetime.now(timezone.utc).replace(minute=config.DELAY)
 
     while 1:
         info.get_info()
@@ -239,10 +235,12 @@ def main():
         # wait for the minute to end
         if check_for_updates():
             webhook_templates.update_available(config.WEBHOOK_URL)
-        sleep(120)
 
-        nextUpdateTime = datetime.now(timezone.utc).replace(minute=config.DELAY) + timedelta(minutes=config.INTERVAL)
-        pause.until(nextUpdateTime)
+        next_update_time = datetime.now(timezone.utc).replace(minute=config.DELAY) + timedelta(minutes=config.INTERVAL)
+        next_update_time = datetime.now(timezone.utc) + timedelta(minutes=config.INTERVAL+config.DELAY) \
+            if next_update_time < datetime.now(timezone.utc) else None  # make sure time is in future
+        next_update_in(next_update_time, graphics)
+        pause.until(next_update_time)
 
 
 

@@ -53,7 +53,7 @@ class Configuration:
                 got_response = True
                 self.__reuse_config = False
             else:
-                print("Didn't quiet understand, try again!")
+                print("Didn't quite understand, try again!")
 
     def check_for_existing_config(self):
         self.home_directory = os.path.expanduser("~")

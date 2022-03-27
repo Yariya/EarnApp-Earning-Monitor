@@ -79,11 +79,8 @@ def check_redeem_requests(graphics, info, webhook_templates):
         return True
 
 
-def next_update_in(minutes:int, graphics: Graphics):
+def next_update_in(next_update_time: datetime, graphics: Graphics):
     current_time = datetime.now(timezone.utc)
-    next_hour = current_time + timedelta(hours=1)
-    next_update_time = datetime.strptime(next_hour.strftime('%Y-%m-%dT%H+%Z'), "%Y-%m-%dT%H+%Z") + timedelta(minutes=minutes)
-    current_time = datetime.strptime(current_time.strftime('%Y-%m-%dT%H:%M:%S+%Z'), '%Y-%m-%dT%H:%M:%S+%Z')
     next_update_in = divmod((next_update_time - current_time).total_seconds(), 60)
     
     graphics.info(f'Next update in {next_update_in[0]:02.00f} minutes {next_update_in[1]:02.00f} seconds')
