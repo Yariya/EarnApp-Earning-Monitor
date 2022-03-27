@@ -30,6 +30,8 @@ class Configuration:
         # 10 Minutes recommended by Vita
         self.DELAY = (10 if os.environ.get("DELAY")
                       is None else int(os.environ.get("DELAY")))
+        self.INTERVAL = (60 if os.environ.get("INTERVAL") is None 
+                            else int(os.environ.get("INTERVAL")))
         self.WEBHOOK_URL = (input("Enter the Discord WebHook URL\n\t: ") if os.environ.get(
             "WEBHOOK_URL") is None else os.environ.get("WEBHOOK_URL"))
         self.AUTOMATIC_REDEEM = (input("Do you want to use automatic redeeming?\n\t[i] This helps getting your "
@@ -75,6 +77,7 @@ class Configuration:
             config = {
                 "AUTH": self.AUTH,
                 "DELAY": self.DELAY,
+                "INTERVAL": self.INTERVAL,
                 "WEBHOOK_URL": self.WEBHOOK_URL,
                 "AUTOMATIC_REDEEM": self.AUTOMATIC_REDEEM,
             }
@@ -87,6 +90,7 @@ class Configuration:
                 config_data = json.load(stream)
                 self.AUTH = config_data["AUTH"]
                 self.DELAY = config_data["DELAY"]
+                self.INTERVAL = config_data["INTERVAL"]
                 self.WEBHOOK_URL = config_data["WEBHOOK_URL"]
                 self.AUTOMATIC_REDEEM = config_data["AUTOMATIC_REDEEM"]
             except:
