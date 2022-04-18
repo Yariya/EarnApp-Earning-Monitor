@@ -232,5 +232,5 @@ class EarnApp:
                 return content['statuses']
         else:
             raise UnKnownError(
-                "Failed to get device statuses. Status code: {response.status_code} Response: {response.content}")
+                f"Failed to get device statuses. Status code: {response.status_code} Response: {response.content}")
         
