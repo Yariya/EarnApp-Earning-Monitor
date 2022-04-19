@@ -1,3 +1,4 @@
 colorama
 discord-webhook
 matplotlib
+pause

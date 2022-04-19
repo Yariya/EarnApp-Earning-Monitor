@@ -11,6 +11,7 @@ from pyEarnapp import EarnApp
 from pyEarnapp.errors import *
 from updates import check_for_updates
 import matplotlib.pyplot as plt
+import pause
 
 # initiallise colorama
 init(autoreset=True)
@@ -82,9 +83,6 @@ def main():
     info.previous_number_of_transactions = info.transaction_info.total_transactions
     info.previous_bandwidth_usage = info.devices_info.total_bandwidth_usage
 
-    next_update_in(config.DELAY, graphics)
-
-
 
     # Offline devices
     offline_change = 0
@@ -134,115 +132,116 @@ def main():
     #startTime = datetime.now(timezone.utc).strftime("%H")
 
     while 1:
+        info.get_info()
+        # initialise locals
+        balance_change = 0
+        traffic_change = 0
 
-        if datetime.now(timezone.utc).strftime("%M") == str(f"{config.DELAY}"):
+        bandwidth = round(info.devices_info.total_bandwidth_usage / (1024 ** 2), 2)
 
-            info.get_info()
-            # initialise locals
-            balance_change = 0
-            traffic_change = 0
+        def calculate_changes():
+            nonlocal balance_change, traffic_change
+            # calculate changes
+            balance_change = round(info.earnings_info.balance - info.previous_balance, 2)
+            traffic_change = round((info.devices_info.total_bandwidth_usage - info.previous_bandwidth_usage) / (1024 ** 2), 2)
+        calculate_changes()
+        if automatic_redeem_local:
+            if info.earnings_info.balance > config.AUTOMATIC_REDEEM:
+                payoutBalance(info.auth)
+        # Soon
+        '''
+        if c == int(config.TRAFFIC_GRAPH_INTERVAL):
+            try:
+                x = []
+                i = startTime
+                for _ in range(0, int(config.TRAFFIC_GRAPH_INTERVAL)):
+                    if i >= 24:
+                        i = 1
+                    x.append(i)
+                    i+=1
+                print(x)
+                y = trafficGraph
 
-            bandwidth = round(info.devices_info.total_bandwidth_usage / (1024 ** 2), 2)
+                # plot
+                plt.title("Traffic")
+                plt.xlabel("time (utc)")
+                plt.ylabel("mb")
 
-            def calculate_changes():
-                nonlocal balance_change, traffic_change
-                # calculate changes
-                balance_change = round(info.earnings_info.balance - info.previous_balance, 2)
-                traffic_change = round((info.devices_info.total_bandwidth_usage - info.previous_bandwidth_usage) / (1024 ** 2), 2)
-            calculate_changes()
-            if automatic_redeem_local:
-                if info.earnings_info.balance > config.AUTOMATIC_REDEEM:
-                    payoutBalance(info.auth)
-            # Soon
-            '''
-            if c == int(config.TRAFFIC_GRAPH_INTERVAL):
-                try:
-                    x = []
-                    i = startTime
-                    for _ in range(0, int(config.TRAFFIC_GRAPH_INTERVAL)):
-                        if i >= 24:
-                            i = 1
-                        x.append(i)
-                        i+=1
-                    print(x)
-                    y = trafficGraph
+                plt.scatter(x, y)
 
-                    # plot
-                    plt.title("Traffic")
-                    plt.xlabel("time (utc)")
-                    plt.ylabel("mb")
+                # beautify the x-labels
+                plt.gcf().autofmt_xdate()
+                myFmt = mdates.DateFormatter('%H')
+                plt.gca().xaxis.set_major_formatter(myFmt)
+                plt.savefig(os.path.expanduser('~')+"\\.earnapp-earning-monitor\\tmp.png")
+                webhook_templates.trafficGraph(os.path.expanduser('~')+"\\.earnapp-earning-monitor\\tmp.png", info)
+                c = 0
+            except:
+                graphics.error("Graph Error!")
 
-                    plt.scatter(x, y)
-
-                    # beautify the x-labels
-                    plt.gcf().autofmt_xdate()
-                    myFmt = mdates.DateFormatter('%H')
-                    plt.gca().xaxis.set_major_formatter(myFmt)
-                    plt.savefig(os.path.expanduser('~')+"\\.earnapp-earning-monitor\\tmp.png")
-                    webhook_templates.trafficGraph(os.path.expanduser('~')+"\\.earnapp-earning-monitor\\tmp.png", info)
-                    c = 0
-                except:
-                    graphics.error("Graph Error!")
-
-            trafficGraph[c+1] = balance_change
-            c += 1 # Number of updates
-            '''
+        trafficGraph[c+1] = balance_change
+        c += 1 # Number of updates
+        '''
 
 
-            # Still causing problems.
-            if offline_device_len(info.auth) > offline_change:
-                # x Devices just got offline
-                try:
-                    off = []
-                    for token in info.device_status:
-                        if device_status_change[token] != info.devices_info[token]:
-                            off.append(str(token))
-                    graphics.warn(f"{offline_device_len() - offline_change} Device(s) just went offline!\n")
-                    print("\t (offline)\n".join(off))
-                    device_changes()
-                    webhook_templates.device_gone_offline(info, offline_device_len() - offline_change, off)
-                except Exception as e:
-                    graphics.warn("Device(s) just got offline. Watch out. Failed to send message.")
+        # Still causing problems.
+        if offline_device_len(info.auth) > offline_change:
+            # x Devices just got offline
+            try:
+                off = []
+                for token in info.device_status:
+                    if device_status_change[token] != info.devices_info[token]:
+                        off.append(str(token))
+                graphics.warn(f"{offline_device_len() - offline_change} Device(s) just went offline!\n")
+                print("\t (offline)\n".join(off))
+                device_changes()
+                webhook_templates.device_gone_offline(info, offline_device_len() - offline_change, off)
+            except Exception as e:
+                graphics.warn("Device(s) just got offline. Watch out. Failed to send message.")
 
 
-            if balance_change != 0:
-                # After a redeem request, the initial balance & initial traffic is assumed to be 0.
-                if info.earnings_info.balance < info.previous_balance:
-                    info.previous_balance = 0
-                    info.previous_bandwidth_usage = 0
-                    calculate_changes()
-                graphics.balance_increased("Balance Updated.")
-                graphics.balance_increased(f"+{balance_change}$")
-                graphics.balance_increased(f"Traffic +{traffic_change}MB")
-            else:
-                if config.DELAY < 5:
-                    graphics.warn(f"Delay is to low. There might be update issues.")
+        if balance_change != 0:
+            # After a redeem request, the initial balance & initial traffic is assumed to be 0.
+            if info.earnings_info.balance < info.previous_balance:
+                info.previous_balance = 0
+                info.previous_bandwidth_usage = 0
+                calculate_changes()
+            graphics.balance_increased("Balance Updated.")
+            graphics.balance_increased(f"+{balance_change}$")
+            graphics.balance_increased(f"Traffic +{traffic_change}MB")
+        else:
+            if config.DELAY < 5:
+                graphics.warn(f"Delay is to low. There might be update issues.")
 
-                graphics.balance_unchanged(
-                    f"Your balance has not changed. Current balance: {info.earnings_info.balance}")
-                graphics.balance_unchanged(
-                    f"No traffic change detected. Current bandwidth usage: {bandwidth} MB")
-            webhook_templates.balance_update(info, config.DELAY)
+            graphics.balance_unchanged(
+                f"Your balance has not changed. Current balance: {info.earnings_info.balance}")
+            graphics.balance_unchanged(
+                f"No traffic change detected. Current bandwidth usage: {bandwidth} MB")
+        webhook_templates.balance_update(info, config.DELAY)
 
 
-            # new redeem request
-            graphics.info(
-                f"Number of transactions: {info.transaction_info.total_transactions}")
+        # new redeem request
+        graphics.info(
+            f"Number of transactions: {info.transaction_info.total_transactions}")
 
-            if check_redeem_requests(graphics, info, webhook_templates):
-                webhook_templates.new_transaction(info)
+        if check_redeem_requests(graphics, info, webhook_templates):
+            webhook_templates.new_transaction(info)
 
-            # update historical data
-            info.previous_balance = info.earnings_info.balance
-            info.previous_number_of_transactions = info.transaction_info.total_transactions
-            info.previous_bandwidth_usage = info.devices_info.total_bandwidth_usage
+        # update historical data
+        info.previous_balance = info.earnings_info.balance
+        info.previous_number_of_transactions = info.transaction_info.total_transactions
+        info.previous_bandwidth_usage = info.devices_info.total_bandwidth_usage
 
-            # wait for the minute to end
-            if check_for_updates():
-                webhook_templates.update_available(config.WEBHOOK_URL)
-            sleep(120)
-        # Delay to check if it's time to ping earnapp
-        sleep(10)
+        # wait for the minute to end
+        if check_for_updates():
+            webhook_templates.update_available(config.WEBHOOK_URL)
+
+        next_update_time = datetime.now(timezone.utc).replace(minute=config.DELAY) + timedelta(minutes=config.INTERVAL)
+        next_update_time = datetime.now(timezone.utc) + timedelta(minutes=config.INTERVAL+config.DELAY) \
+            if next_update_time < datetime.now(timezone.utc) else None  # make sure time is in future
+        next_update_in(next_update_time, graphics)
+        pause.until(next_update_time)
+
 
 
 if __name__ == "__main__":
