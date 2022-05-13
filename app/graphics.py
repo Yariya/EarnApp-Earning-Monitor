@@ -1,13 +1,13 @@
 from colorama import Fore
 
-VERSION = "2.2.0.2"
+VERSION = "2.2.0.3"
 
 class Graphics:
     def print_app_title(self):
         print(self.app_title_gradient_new)  # self.app_title
 
     def success(self, message):
-        print(f"\t{Fore.LIGHTGREEN_EX}[✓] {message}")
+        print(f"\t{Fore.LIGHTGREEN_EX}[$] {message}")
 
     def error(self, message):
         print(f"\t{Fore.LIGHTRED_EX}[X] {message}")

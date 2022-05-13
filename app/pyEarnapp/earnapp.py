@@ -202,6 +202,8 @@ class EarnApp:
                 f"Failed to redeem balance. Status code: {response.status_code} Response: {response.content}")
 
     def get_device_statuses(self) -> dict:
+
+
         devices = self.get_devices_info().get_devices()
         self.__status_payload = []
 
@@ -231,6 +233,5 @@ class EarnApp:
             else:
                 return content['statuses']
         else:
-            raise UnKnownError(
-                f"Failed to get device statuses. Status code: {response.status_code} Response: {response.content}")
+            raise UnKnownError(f"Failed to get device statuses. Status code: {response.status_code} Response: {response.content}")
         

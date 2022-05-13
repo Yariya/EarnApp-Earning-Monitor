@@ -125,7 +125,7 @@ class WebhookTemplate:
         )
 
         embed.set_thumbnail(
-            url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
+            url="https://s3-eu-west-1.amazonaws.com/tpd/logos/6135e9dd9f3c85001f1088e8/0x0.png")
         embed.add_embed_field(name="Username", value=f"{info.user_info.name}")
         embed.add_embed_field(
             name="Multiplier", value=f"{info.earnings_info.multiplier}x")
@@ -144,7 +144,7 @@ class WebhookTemplate:
             inline=True)
         embed.add_embed_field(name="Bugs?",
                               value=f"[Contact Devs.](https://github.com/Yariya/EarnApp-Earning-Monitor/issues)")
-        embed.set_footer(text=f"Version: 2.2.0.2",
+        embed.set_footer(text=f"Version: 2.2.0.3",
                          icon_url="https://img.icons8.com/color/64/000000/paypal.png")
         webhook.add_embed(embed)
         webhook.execute()
@@ -188,7 +188,7 @@ class WebhookTemplate:
         lastUpdateTrafficChange = traffic_change
 
         embed.set_thumbnail(
-            url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
+            url="https://s3-eu-west-1.amazonaws.com/tpd/logos/6135e9dd9f3c85001f1088e8/0x0.png")
         embed.add_embed_field(name="Earned", value=f"+{change}$ ({moneyPercentage})")
         embed.add_embed_field(name="Traffic", value=f"+{traffic_change} MB ({trafficPercentage})")
         embed.add_embed_field(name="Avg. Price/GB", value=value)
@@ -218,7 +218,7 @@ class WebhookTemplate:
             color="07FF70"
         )
         embed.set_thumbnail(
-            url="https://www.androidfreeware.net/img2/com-earnapp.jpg")
+            url="https://s3-eu-west-1.amazonaws.com/tpd/logos/6135e9dd9f3c85001f1088e8/0x0.png")
         embed.add_embed_field(name="UUID", value=f"{transaction.uuid}")
         embed.add_embed_field(name="Amount", value=f"+{transaction.amount}$")
         embed.add_embed_field(
@@ -243,7 +243,7 @@ class WebhookTemplate:
             color="0002ff"
         )
         embed.set_thumbnail(
-            url="https://img.icons8.com/nolan/96/downloading-updates.png")
+            url="https://s3-eu-west-1.amazonaws.com/tpd/logos/6135e9dd9f3c85001f1088e8/0x0.png")
         embed.add_embed_field(name="Changelog", value=f"```{params['body']}```", inline=True)
         embed.add_embed_field(
             name="Update", value=f"[Download](https://github.com/Yariya/EarnApp-Earning-Monitor/releases/{params['tag_name']}/)", inline=False)

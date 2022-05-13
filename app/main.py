@@ -1,4 +1,5 @@
 import os
+import sys
 from sys import exit
 from config import Configuration
 from colorama import init
@@ -10,41 +11,58 @@ from functions import *
 from pyEarnapp import EarnApp
 from pyEarnapp.errors import *
 from updates import check_for_updates
-import matplotlib.pyplot as plt
+import platform
+
+os.system("title EarnApp Earnings Watcher")
+
+RestartSig = Exception("restart")
 
 # initiallise colorama
 init(autoreset=True)
 automatic_redeem_local = False
 redeem_email = ""
-try:
-    # Initiallise graphics
-    graphics = Graphics()
-    graphics.print_app_title()
 
-    # get configurations
-    config = Configuration()
-    graphics.success("Configurations Loaded.")
+def ClearScreen():
+    if platform.system() == "Windows":
+        os.system("cls")
+    else:
+        os.system("clear")
 
+# Initiallise graphics
+graphics = Graphics()
+graphics.print_app_title()
+
+config: Configuration
+webhook_templates: WebhookTemplate
+api: EarnApp
+
+def initialize():
+    global api, config, webhook_templates
     try:
-        config.AUTOMATIC_REDEEM = abs(float(config.AUTOMATIC_REDEEM))
-        if int(config.AUTOMATIC_REDEEM) != 0 or int(config.AUTOMATIC_REDEEM) > 2.5:
-            automatic_redeem_local = True
-            redeem_email = input("PayPal Email: ")
-            if redeem_email == "" or "@" not in redeem_email:
-                raise Exception
-    except Exception as e:
-        graphics.warn("Check automatic redeem value. Reconfigure or edit config from ~user/.earnapp-earnings-monitor")
+        # get configurations
+        config = Configuration()
+        graphics.success("Configurations Loaded.")
+
+        try:
+            config.AUTOMATIC_REDEEM = abs(float(config.AUTOMATIC_REDEEM))
+            if int(config.AUTOMATIC_REDEEM) != 0 or int(config.AUTOMATIC_REDEEM) > 2.5:
+                automatic_redeem_local = True
+                redeem_email = input("PayPal Email: ")
+                if redeem_email == "" or "@" not in redeem_email:
+                    raise Exception
+        except Exception as e:
+            graphics.warn("Check automatic redeem value. Reconfigure or edit config from ~user/.earnapp-earnings-monitor")
+            exit()
+        # initiallise earnapp
+        api = EarnApp(config.AUTH)
+        graphics.success("Earnapp Earning Monitor Started.")
+
+        webhook_templates = WebhookTemplate()
+    except (KeyboardInterrupt, SystemExit):
+        graphics.warn("Received exit signal!")
         exit()
-    # initiallise earnapp
-    api = EarnApp(config.AUTH)
-    graphics.success("Earnapp Earning Monitor Started.")
 
-    webhook_templates = WebhookTemplate()
-except (KeyboardInterrupt, SystemExit):
-    graphics.warn("Received exit signal!")
-    exit()
-
-
+initialize()
 
 def payoutBalance(header):
     try:
@@ -61,6 +79,20 @@ def payoutBalance(header):
         pass # Handling later
 
 def main():
+    while 1:
+        try:
+            Worker()
+        except Exception as e:
+            print(e)
+            if e == RestartSig:
+                initialize()
+                pass
+            else:
+                raise SystemExit
+
+
+
+def Worker():
     graphics.info("Checking for updates.")
     updateCheck = check_for_updates()
     if updateCheck != "":
@@ -69,11 +101,17 @@ def main():
     try:
         # Earnapp
         info = AllInformation(config.WEBHOOK_URL, api, graphics)
-        # Discord Webhook
-        test_discord_webhook(graphics, config.WEBHOOK_URL)
     except AuthenticationError:
-        graphics.error("Looks like a wrong oauth-refresh-token.")
-        exit()
+        graphics.error("oauth-refresh-token is invalid.")
+        graphics.info("EarnApp refreshes oauth-refresh-token every login.")
+        graphics.info("Please reenter oauth-refresh-token (0 = exit)")
+        t = input("\t: ")
+        if t == "0":
+            raise SystemExit
+        else:
+            config.update_cfg(t)
+            ClearScreen()
+            raise RestartSig
 
     display_initial_info(graphics, info)
     webhook_templates.send_first_message(info)
@@ -83,8 +121,6 @@ def main():
     info.previous_bandwidth_usage = info.devices_info.total_bandwidth_usage
 
     next_update_in(config.DELAY, graphics)
-
-
 
     # Offline devices
     offline_change = 0
@@ -121,22 +157,11 @@ def main():
                 f"Error occurred! You can ignore this if you don't want to use device status function. Try restarting the monitor and if it still occurs contact devs!\n{e}")
             return 0
 
-    def device_changes():
-        nonlocal offline_change
-        global device_status_change
-        offline_change = offline_device_len(info.auth)
-        device_status_change = info.device_status
 
-    device_changes()
-
-     #trafficGraph = [0 for x in range(24)]
-    #c = 0
-    #startTime = datetime.now(timezone.utc).strftime("%H")
-
+    offline_change = offline_device_len(info.auth)
+    device_status_change = info.device_status
     while 1:
-
         if datetime.now(timezone.utc).strftime("%M") == str(f"{config.DELAY}"):
-
             info.get_info()
             # initialise locals
             balance_change = 0
@@ -148,49 +173,15 @@ def main():
                 nonlocal balance_change, traffic_change
                 # calculate changes
                 balance_change = round(info.earnings_info.balance - info.previous_balance, 2)
-                traffic_change = round((info.devices_info.total_bandwidth_usage - info.previous_bandwidth_usage) / (1024 ** 2), 2)
+                traffic_change = round(
+                    (info.devices_info.total_bandwidth_usage - info.previous_bandwidth_usage) / (1024 ** 2), 2)
+
             calculate_changes()
             if automatic_redeem_local:
                 if info.earnings_info.balance > config.AUTOMATIC_REDEEM:
                     payoutBalance(info.auth)
-            # Soon
-            '''
-            if c == int(config.TRAFFIC_GRAPH_INTERVAL):
-                try:
-                    x = []
-                    i = startTime
-                    for _ in range(0, int(config.TRAFFIC_GRAPH_INTERVAL)):
-                        if i >= 24:
-                            i = 1
-                        x.append(i)
-                        i+=1
-                    print(x)
-                    y = trafficGraph
-
-                    # plot
-                    plt.title("Traffic")
-                    plt.xlabel("time (utc)")
-                    plt.ylabel("mb")
-
-                    plt.scatter(x, y)
-
-                    # beautify the x-labels
-                    plt.gcf().autofmt_xdate()
-                    myFmt = mdates.DateFormatter('%H')
-                    plt.gca().xaxis.set_major_formatter(myFmt)
-                    plt.savefig(os.path.expanduser('~')+"\\.earnapp-earning-monitor\\tmp.png")
-                    webhook_templates.trafficGraph(os.path.expanduser('~')+"\\.earnapp-earning-monitor\\tmp.png", info)
-                    c = 0
-                except:
-                    graphics.error("Graph Error!")
-
-            trafficGraph[c+1] = balance_change
-            c += 1 # Number of updates
-            '''
-
-
-            # Still causing problems.
-            if offline_device_len(info.auth) > offline_change:
+            o = offline_device_len(info.auth)
+            if o > offline_change:
                 # x Devices just got offline
                 try:
                     off = []
@@ -199,11 +190,15 @@ def main():
                             off.append(str(token))
                     graphics.warn(f"{offline_device_len() - offline_change} Device(s) just went offline!\n")
                     print("\t (offline)\n".join(off))
-                    device_changes()
-                    webhook_templates.device_gone_offline(info, offline_device_len() - offline_change, off)
-                except Exception as e:
-                    graphics.warn("Device(s) just got offline. Watch out. Failed to send message.")
 
+                    offline_change = offline_device_len(info.auth)
+                    device_status_change = info.device_status
+
+                    webhook_templates.device_gone_offline(info, offline_device_len(info.auth) - offline_change, off)
+                except Exception as e:
+                    graphics.warn("Device(s) just got offline. Watch out.")
+                    webhook_templates.device_gone_offline(info, offline_device_len(info.auth) - offline_change, "Fail")
+            offline_change = o
 
             if balance_change != 0:
                 # After a redeem request, the initial balance & initial traffic is assumed to be 0.
@@ -224,7 +219,6 @@ def main():
                     f"No traffic change detected. Current bandwidth usage: {bandwidth} MB")
             webhook_templates.balance_update(info, config.DELAY)
 
-
             # new redeem request
             graphics.info(
                 f"Number of transactions: {info.transaction_info.total_transactions}")
@@ -243,7 +237,6 @@ def main():
             sleep(120)
         # Delay to check if it's time to ping earnapp
         sleep(10)
-
 
 if __name__ == "__main__":
     try:
